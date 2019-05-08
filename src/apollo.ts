@@ -1,0 +1,47 @@
+import ApolloClient, { Operation } from "apollo-boost";
+import { async } from "q";
+
+const client = new ApolloClient({
+  clientState: {
+    defaults: {
+      auth: {
+        __typename: "Auth",
+        isLoggedIn: localStorage.getItem("jwt")
+      }
+    },
+    resolvers: {
+      Mutation: {
+        logUserIn: (_, { token }, { cache }) => {
+          localStorage.setItem("jwt", token);
+          cache.writeData({
+            data: {
+              __typename: "Auth",
+              isLoggedIn: true
+            }
+          });
+          return null;
+        },
+        logUserOut: (_, __, { cache }) => {
+          localStorage.removeItem("jwt");
+          cache.writeData({
+            data: {
+              __typename: "Auth",
+              isLoggedIn: false
+            }
+          });
+          return null;
+        }
+      }
+    }
+  },
+  request: async (operation: Operation) => {
+    operation.setContext({
+      headers: {
+        "X-JWT": localStorage.getItem("jwt") || ""
+      }
+    });
+  },
+  uri: "http://localhost:4000/graphql"
+});
+
+export default client;
