@@ -1,5 +1,4 @@
 import ApolloClient, { Operation } from "apollo-boost";
-import { async } from "q";
 
 const client = new ApolloClient({
   clientState: {
