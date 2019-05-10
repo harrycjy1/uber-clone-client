@@ -5,7 +5,7 @@ const client = new ApolloClient({
     defaults: {
       auth: {
         __typename: "Auth",
-        isLoggedIn: localStorage.getItem("jwt")
+        isLoggedIn: Boolean(localStorage.getItem("jwt"))
       }
     },
     resolvers: {
@@ -14,8 +14,10 @@ const client = new ApolloClient({
           localStorage.setItem("jwt", token);
           cache.writeData({
             data: {
-              __typename: "Auth",
-              isLoggedIn: true
+              auth: {
+                __typename: "Auth",
+                isLoggedIn: true
+              }
             }
           });
           return null;
@@ -33,6 +35,7 @@ const client = new ApolloClient({
       }
     }
   },
+  //모든 operation에 request가 접근
   request: async (operation: Operation) => {
     operation.setContext({
       headers: {
