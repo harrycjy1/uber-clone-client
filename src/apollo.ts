@@ -35,7 +35,6 @@ const client = new ApolloClient({
       }
     }
   },
-  //모든 operation에 request가 접근
   request: async (operation: Operation) => {
     operation.setContext({
       headers: {
