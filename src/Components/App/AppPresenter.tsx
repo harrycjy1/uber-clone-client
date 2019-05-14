@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Redirect, Route } from "react-router-dom";
 import AddPlace from "../../Routes/AddPlace";
 import EditAccount from "../../Routes/EditAccount";
 import Home from "../../Routes/Home";
-import OutHome from "../../Routes/OutHome";
+import Login from "../../Routes/Login";
 import PhoneLogin from "../../Routes/PhoneLogin";
 import Places from "../../Routes/Places";
 import Ride from "../../Routes/Ride";
@@ -19,13 +19,13 @@ interface IProps {
 
 const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => (
   <BrowserRouter>
-    {isLoggedIn ? <LoggedOutRoutes /> : <LoggedInRoutes />};
+    {isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes />};
   </BrowserRouter>
 );
-
+//SFC = stateless functional component
 const LoggedOutRoutes: React.SFC = () => (
   <Switch>
-    <Route path={"/"} exact={true} component={OutHome} />
+    <Route path={"/"} exact={true} component={Login} />
     <Route path={"/phone-login"} component={PhoneLogin} />
     <Route path={"/verify-phonenumber:number"} component={VerifyPhone} />
     <Route path={"/social-login"} component={SocialLogin} />
