@@ -5,10 +5,12 @@
   "dependencies": {
     "@types/jest": "24.0.12",
     "@types/node": "12.0.0",
+    "@types/prop-types": "^15.7.1",
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.3",
     "@types/styled-components": "^4.1.14",
+    "apollo": "^2.12.0",
     "apollo-boost": "^0.3.1",
     "graphql": "^14.3.0",
     "prop-types": "^15.7.2",
@@ -18,6 +20,7 @@
     "react-helmet": "^5.2.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
+    "react-toastify": "^5.1.0",
     "styled-components": "^4.2.0",
     "styled-reset": "^2.0.10",
     "typescript": "3.4.5"
@@ -26,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "precodegen": "apollo schema:download --endpoint=http://localhost:4000/graphql",
+    "codegen": "apollo codegen:generate src/types/api.d.ts --queries='src/**/*.queries.ts' --addTypename --localSchemaFile=schema.json --target typescript --outputFlat"
   },
   "eslintConfig": {
     "extends": "react-app"

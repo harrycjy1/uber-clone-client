@@ -4,11 +4,16 @@ import { IS_LOGGED_IN } from "./AppQueries";
 import AppPresenter from "./AppPresenter";
 import { ThemeProvider } from "styled-components";
 import theme from "../../theme";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const AppContainer: any = ({ data }) => (
-  <ThemeProvider theme={theme}>
-    <AppPresenter isLoggedIn={data.auth.isLoggedIn} />
-  </ThemeProvider>
+  <React.Fragment>
+    <ThemeProvider theme={theme}>
+      <AppPresenter isLoggedIn={data.auth.isLoggedIn} />
+    </ThemeProvider>
+    <ToastContainer draggable={true} position={"top-right"} />
+  </React.Fragment>
 );
 
 export default graphql(IS_LOGGED_IN)(AppContainer);
