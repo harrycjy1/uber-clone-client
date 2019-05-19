@@ -2,8 +2,8 @@ import React from "react";
 import PhoneLoginPresenter from "./PhoneLoginPresenter";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
-import { Mutation, MutationUpdaterFn } from "react-apollo";
-import { PHONE_SIGN_IN } from "./PhoneLogin.queries";
+import { Mutation } from "react-apollo";
+import { PHONE_SIGN_IN } from "./PhoneQueries";
 import {
   startPhoneVerificationVariables,
   startPhoneVerification
@@ -27,21 +27,36 @@ class PhoneLoginContainer extends React.Component<
     phoneNumber: ""
   };
   public render() {
+    const { history } = this.props;
     const { countryCode, phoneNumber } = this.state;
+    const phone = `${countryCode}${phoneNumber}`;
+
     return (
       <PhoneSignInMutation
         mutation={PHONE_SIGN_IN}
         variables={{ phoneNumber: `${countryCode}${phoneNumber}` }}
-        update={this.afterSubmit}
+        onCompleted={data => {
+          const { StartPhoneVerification } = data;
+          if (StartPhoneVerification.ok) {
+            toast.success("success SMS send ! Redirecting you....");
+            setTimeout(() => {
+              history.push({
+                pathname: "/verify-phone",
+                state: {
+                  phone
+                }
+              });
+            }, 2000);
+          } else {
+            toast.error(StartPhoneVerification.error);
+          }
+        }}
       >
         {(mutation, { loading }) => {
           const onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
             event.preventDefault();
-            const { countryCode, phoneNumber } = this.state;
             //폰번호 검사 정규식
-            const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(
-              `${countryCode}${phoneNumber}`
-            );
+            const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(phone);
             if (isValid) {
               mutation();
             } else {
@@ -73,10 +88,6 @@ class PhoneLoginContainer extends React.Component<
     this.setState({
       [name]: value
     } as any);
-  };
-
-  public afterSubmit: MutationUpdaterFn = (cache, data) => {
-    console.log(data);
   };
 }
 
