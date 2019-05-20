@@ -83,6 +83,7 @@ const LoginPresenter: React.SFC<IProps> = () => (
         <PhoneLogin>
           <Subtitle>Get Moving with Nuber</Subtitle>
           <FakeInput>
+            {/* eslint-disable-next-line */}
             🇰🇷 +82 <Grey>Enter your mobile number</Grey>
           </FakeInput>
         </PhoneLogin>
