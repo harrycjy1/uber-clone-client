@@ -60,6 +60,7 @@ class VerifyPhoneContainer extends React.Component<IProps, IState> {
     const {
       target: { name, value }
     } = event;
+
     this.setState({
       [name]: value
     } as any);
