@@ -3,6 +3,7 @@ import styled from "styled-components";
 import BackArrow from "../../Components/BackArrow";
 import Helmet from "react-helmet";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { render } from "react-dom";
 
 const Container = styled.div`
   margin-top: 30px;
@@ -40,10 +41,9 @@ const SocialLoginPresenter = () => (
 
     <FacebookLogin
       appId="2285620218363779"
-      autoLoad
       callback={null}
       render={renderProps => (
-        <Link>
+        <Link onClick={renderProps.onClick}>
           <Icon>
             <svg
               xmlns="http://www.w3.org/2000/svg"
