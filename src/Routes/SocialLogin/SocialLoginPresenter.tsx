@@ -3,7 +3,6 @@ import styled from "styled-components";
 import BackArrow from "../../Components/BackArrow";
 import Helmet from "react-helmet";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { render } from "react-dom";
 
 const Container = styled.div`
   margin-top: 30px;
@@ -31,7 +30,11 @@ const BackArrowExtended = styled(BackArrow)`
   left: 20px;
 `;
 
-const SocialLoginPresenter = () => (
+interface IProps {
+  loginCallback: (response) => void;
+}
+
+const SocialLoginPresenter: React.SFC<IProps> = ({ loginCallback }) => (
   <Container>
     <Helmet>
       <title>Social Login</title>
@@ -41,7 +44,9 @@ const SocialLoginPresenter = () => (
 
     <FacebookLogin
       appId="2285620218363779"
-      callback={null}
+      autoLoad={false}
+      fields="name,first_name,last_name,email"
+      callback={loginCallback}
       render={renderProps => (
         <Link onClick={renderProps.onClick}>
           <Icon>
