@@ -38,6 +38,7 @@ class VerifyPhoneContainer extends React.Component<IProps, IState> {
         onCompleted={data => {
           const { CompletePhoneVerification } = data;
           if (CompletePhoneVerification.ok) {
+            console.log(CompletePhoneVerification);
             toast.success("You're verified, loggin in now");
           } else {
             toast.error(CompletePhoneVerification.error);

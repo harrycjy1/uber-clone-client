@@ -23,12 +23,12 @@ const Container = styled.input`
 `;
 
 interface IProps {
-  required?: boolean;
+  placeholder?: string;
   type?: string;
-  placeholder: string;
+  required?: boolean;
   value: string;
-  onChange?: any;
   name?: string;
+  onChange: any;
   className?: string;
 }
 
