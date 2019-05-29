@@ -21,6 +21,7 @@
     "react-helmet": "^5.2.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
+    "react-sidebar": "^3.0.2",
     "react-toastify": "^5.1.0",
     "styled-components": "^4.2.0",
     "styled-reset": "^2.0.10",
@@ -48,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-sidebar": "^3.0.0"
   }
 }

@@ -46,7 +46,6 @@ class VerifyPhoneContainer extends React.Component<IProps, IState> {
                     variables: { token: CompletePhoneVerification.token }
                   });
                 }
-
                 toast.success("You're verified, loggin in now");
               } else {
                 toast.error(CompletePhoneVerification.error);

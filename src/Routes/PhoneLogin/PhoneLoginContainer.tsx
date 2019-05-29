@@ -2,7 +2,7 @@ import React from "react";
 import PhoneLoginPresenter from "./PhoneLoginPresenter";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationFn } from "react-apollo";
 import { PHONE_SIGN_IN } from "./PhoneQueries";
 import {
   startPhoneVerificationVariables,
@@ -26,10 +26,14 @@ class PhoneLoginContainer extends React.Component<
     countryCode: "+82",
     phoneNumber: ""
   };
+  public phoneMutation: MutationFn<
+    startPhoneVerification,
+    startPhoneVerificationVariables
+  >;
+
   public render() {
     const { history } = this.props;
     const { countryCode, phoneNumber } = this.state;
-    const phone = `${countryCode}${phoneNumber}`;
 
     return (
       <PhoneSignInMutation
@@ -37,6 +41,7 @@ class PhoneLoginContainer extends React.Component<
         variables={{ phoneNumber: `${countryCode}${phoneNumber}` }}
         onCompleted={data => {
           const { StartPhoneVerification } = data;
+          const phone = `${countryCode}${phoneNumber}`;
           if (StartPhoneVerification.ok) {
             toast.success("success SMS send ! Redirecting you....");
             setTimeout(() => {
@@ -52,23 +57,14 @@ class PhoneLoginContainer extends React.Component<
           }
         }}
       >
-        {(mutation, { loading }) => {
-          const onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
-            event.preventDefault();
-            //폰번호 검사 정규식
-            const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(phone);
-            if (isValid) {
-              mutation();
-            } else {
-              toast.error("Please write a valid phone number");
-            }
-          };
+        {(phoneMutation, { loading }) => {
+          this.phoneMutation = phoneMutation;
           return (
             <PhoneLoginPresenter
               countryCode={countryCode}
               phoneNumber={phoneNumber}
               onInputChange={this.onInputChange}
-              onSubmit={onSubmit}
+              onSubmit={this.onSubmit}
               loading={loading}
             />
           );
@@ -88,6 +84,19 @@ class PhoneLoginContainer extends React.Component<
     this.setState({
       [name]: value
     } as any);
+  };
+
+  public onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
+    event.preventDefault();
+    const { countryCode, phoneNumber } = this.state;
+    const phone = `${countryCode}${phoneNumber}`;
+    //폰번호 검사 정규식
+    const isValid = /^\+[1-9]{1}[0-9]{7,11}$/.test(phone);
+    if (isValid) {
+      this.phoneMutation();
+    } else {
+      toast.error("Please write a valid phone number");
+    }
   };
 }
 

@@ -5,6 +5,7 @@ import { FACEBOOK_CONNECT } from "./SocialLoginQueries";
 import { facebookConnect, facebookConnectVariables } from "../../types/api";
 import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
+import { LOG_USER_IN } from "../../sharedQueries.local";
 
 class LoginMutation extends Mutation<
   facebookConnect,
@@ -32,14 +33,29 @@ class SocialLoginContainer extends React.Component<IProps, IState> {
     facebookConnectVariables
   >;
   public render() {
-    const { firstName, lastName, email, fbId } = this.state;
     return (
-      <LoginMutation mutation={FACEBOOK_CONNECT}>
-        {(facebookMutation, { loading }) => {
-          this.facebookMutation = facebookMutation;
-          return <SocialLoginPresenter loginCallback={this.callBack} />;
-        }}
-      </LoginMutation>
+      <Mutation mutation={LOG_USER_IN}>
+        {logUserIn => (
+          <LoginMutation
+            mutation={FACEBOOK_CONNECT}
+            onCompleted={data => {
+              const { FacebookConnect } = data;
+              if (FacebookConnect.ok) {
+                logUserIn({
+                  variables: { token: FacebookConnect.token }
+                });
+              } else {
+                toast.error(FacebookConnect.error);
+              }
+            }}
+          >
+            {(facebookMutation, { loading }) => {
+              this.facebookMutation = facebookMutation;
+              return <SocialLoginPresenter loginCallback={this.callBack} />;
+            }}
+          </LoginMutation>
+        )}
+      </Mutation>
     );
   }
 
