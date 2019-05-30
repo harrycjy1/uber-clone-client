@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "../../typed-components";
 import { userProfile } from "../../types/api";
@@ -80,39 +80,38 @@ interface IProps {
   loading: boolean;
 }
 
-const MenuPresenter: React.SFC<IProps> = ({
-  data: {
-    GetMyProfile: { user }
-  },
-  loading
-}) => (
-  <Container>
-    {!loading && user && user.fullName && (
-      <React.Fragment>
-        <Header>
-          <Grid>
-            <Link to={"/edit-account"}>
-              <Image
-                src={
-                  user.profilePhoto ||
-                  "https://lh3.googleusercontent.com/-CTwXMuZRaWw/AAAAAAAAAAI/AAAAAAAAAUg/8T5nFuIdnHE/photo.jpg"
-                }
-              />
-            </Link>
-            <Text>
-              <Name>{user.fullName}</Name>
-              <Rating>4.5</Rating>
-            </Text>
-          </Grid>
-        </Header>
-        <SLink to="/trips">Your Trips</SLink>
-        <SLink to="/settings">Settings</SLink>
-        <ToggleDriving isDriving={user.isDriving}>
-          {user.isDriving ? "Stop driving" : "Start driving"}
-        </ToggleDriving>
-      </React.Fragment>
-    )}
-  </Container>
-);
+const MenuPresenter: React.SFC<IProps> = ({ data, loading }) => {
+  const GetMyProfile = data!.GetMyProfile;
+
+  return (
+    <Container>
+      {!loading && GetMyProfile.user && GetMyProfile.user.fullName && (
+        <React.Fragment>
+          <Header>
+            <Grid>
+              <Link to={"/edit-account"}>
+                <Image
+                  src={
+                    GetMyProfile.user.profilePhoto ||
+                    "https://lh3.googleusercontent.com/-CTwXMuZRaWw/AAAAAAAAAAI/AAAAAAAAAUg/8T5nFuIdnHE/photo.jpg"
+                  }
+                />
+              </Link>
+              <Text>
+                <Name>{GetMyProfile.user.fullName}</Name>
+                <Rating>4.5</Rating>
+              </Text>
+            </Grid>
+          </Header>
+          <SLink to="/trips">Your Trips</SLink>
+          <SLink to="/settings">Settings</SLink>
+          <ToggleDriving isDriving={GetMyProfile.user.isDriving}>
+            {GetMyProfile.user.isDriving ? "Stop driving" : "Start driving"}
+          </ToggleDriving>
+        </React.Fragment>
+      )}
+    </Container>
+  );
+};
 
 export default MenuPresenter;

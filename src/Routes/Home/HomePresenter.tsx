@@ -22,7 +22,7 @@ const HomePresenter: React.SFC<IProps> = ({
       <title>Hi</title>
     </Helmet>
     <Sidebar
-      sidebar={Menu}
+      sidebar={<Menu />}
       open={isMenuOpen}
       onSetOpen={toggleMenu}
       styles={{
