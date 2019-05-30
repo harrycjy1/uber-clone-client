@@ -63,7 +63,7 @@ interface IToggleProps {
   isDriving: boolean;
 }
 
-const ToggleDriving = styled<any, IToggleProps>("button")`
+const ToggleDriving = styled.div<IToggleProps>`
   -webkit-appearance: none;
   background-color: ${props =>
     props.isDriving ? props.theme.yellowColor : props.theme.greenColor};
@@ -76,12 +76,14 @@ const ToggleDriving = styled<any, IToggleProps>("button")`
 `;
 
 interface IProps {
-  data?: userProfile;
+  data: userProfile;
   loading: boolean;
 }
 
 const MenuPresenter: React.SFC<IProps> = ({
-  data: { GetMyProfile: { user = null } = {} } = {},
+  data: {
+    GetMyProfile: { user }
+  },
   loading
 }) => (
   <Container>

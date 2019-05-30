@@ -10,7 +10,13 @@ class MenuContainer extends React.Component {
   public render() {
     return (
       <ProfileQuery query={USER_PROFILE}>
-        {({ data, loading }) => <MenuPresenter data={data} loading={loading} />}
+        {({ data, loading }) => {
+          if (data) {
+            return <MenuPresenter data={data} loading={loading} />;
+          } else {
+            return "Sorry there's an errors";
+          }
+        }}
       </ProfileQuery>
     );
   }
