@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "../../typed-components";
-import { userProfile } from "../../types/api";
+import { userProfile, toggleDriving } from "../../types/api";
+import { MutationFn } from "react-apollo";
 
 const Container = styled.div`
   height: 100%;
@@ -63,7 +64,7 @@ interface IToggleProps {
   isDriving: boolean;
 }
 
-const ToggleDriving = styled.div<IToggleProps>`
+const ToggleDriving = styled.button<IToggleProps>`
   -webkit-appearance: none;
   background-color: ${props =>
     props.isDriving ? props.theme.yellowColor : props.theme.greenColor};
@@ -76,11 +77,16 @@ const ToggleDriving = styled.div<IToggleProps>`
 `;
 
 interface IProps {
-  data: userProfile;
+  data?: userProfile;
   loading: boolean;
+  toggleDrivingFn: any;
 }
 
-const MenuPresenter: React.SFC<IProps> = ({ data, loading }) => {
+const MenuPresenter: React.SFC<IProps> = ({
+  data,
+  loading,
+  toggleDrivingFn
+}) => {
   const GetMyProfile = data!.GetMyProfile;
 
   return (
@@ -105,7 +111,10 @@ const MenuPresenter: React.SFC<IProps> = ({ data, loading }) => {
           </Header>
           <SLink to="/trips">Your Trips</SLink>
           <SLink to="/settings">Settings</SLink>
-          <ToggleDriving isDriving={GetMyProfile.user.isDriving}>
+          <ToggleDriving
+            onClick={toggleDrivingFn}
+            isDriving={GetMyProfile.user.isDriving}
+          >
             {GetMyProfile.user.isDriving ? "Stop driving" : "Start driving"}
           </ToggleDriving>
         </React.Fragment>
