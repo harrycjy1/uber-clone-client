@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "../../typed-components";
-import { userProfile, toggleDriving } from "../../types/api";
-import { MutationFn } from "react-apollo";
+import { userProfile } from "../../types/api";
 
 const Container = styled.div`
   height: 100%;
