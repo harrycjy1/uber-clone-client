@@ -15,7 +15,7 @@
     "graphql": "^14.3.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-apollo": "2.1.11",
+    "react-apollo": "^2.5.6",
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
     "react-helmet": "^5.2.1",
