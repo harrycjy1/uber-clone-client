@@ -16,6 +16,7 @@ interface IState {
   lastName: string;
   email: string;
   profilePhoto: string;
+  didFetch: boolean;
 }
 
 interface IProps extends RouteComponentProps<any> {}
@@ -32,15 +33,17 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     email: "",
     firstName: "",
     lastName: "",
-    profilePhoto: ""
+    profilePhoto: "",
+    didFetch: false
   };
   public render() {
-    const { email, firstName, lastName, profilePhoto } = this.state;
+    const { email, firstName, lastName, profilePhoto, didFetch } = this.state;
     return (
       <ProfileQuery
         query={USER_PROFILE}
         onCompleted={this.updateFields}
-        skip={email !== ""}
+        skip={didFetch}
+        fetchPolicy={"cache-and-network"}
       >
         {() => (
           <UpdateProfileMutation
@@ -87,7 +90,7 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     } as any);
   };
 
-  public updateFields = (data: {} | userProfile) => {
+  public updateFields = (data: userProfile) => {
     console.log(data);
     if ("GetMyProfile" in data) {
       const {
@@ -99,7 +102,8 @@ class EditAccountContainer extends React.Component<IProps, IState> {
           email,
           firstName,
           lastName,
-          profilePhoto
+          profilePhoto,
+          didFetch: true
         } as any);
       }
     }
