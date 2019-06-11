@@ -10,6 +10,7 @@ import {
 } from "../../types/api";
 import EditAccountPresenter from "./EditAccountPresenter";
 import { UPDATE_PROFILE } from "./EditAccountQueries";
+import { useQuery } from "react-apollo-hooks";
 
 interface IState {
   firstName: string;
@@ -26,7 +27,13 @@ class UpdateProfileMutation extends Mutation<
   updateProfileVariables
 > {}
 
-class ProfileQuery extends Query<userProfile> {}
+// class ProfileQuery extends Query<userProfile> {}
+
+const ProfileQuery = () => {
+  const { data, error, loading } = useQuery(USER_PROFILE);
+
+  return (data, loading) => {};
+};
 
 class EditAccountContainer extends React.Component<IProps, IState> {
   public state = {
@@ -39,44 +46,37 @@ class EditAccountContainer extends React.Component<IProps, IState> {
   public render() {
     const { email, firstName, lastName, profilePhoto, didFetch } = this.state;
     return (
-      <ProfileQuery
-        query={USER_PROFILE}
-        onCompleted={this.updateFields}
-        skip={didFetch}
-        fetchPolicy={"cache-and-network"}
-      >
-        {() => (
-          <UpdateProfileMutation
-            mutation={UPDATE_PROFILE}
-            refetchQueries={[{ query: USER_PROFILE }]}
-            onCompleted={data => {
-              const { UpdateMyProfile } = data;
-              if (UpdateMyProfile.ok) {
-                toast.success("Profile updated!");
-              } else if (UpdateMyProfile.error) {
-                toast.error(UpdateMyProfile.error);
-              }
-            }}
-            variables={{
-              email,
-              firstName,
-              lastName,
-              profilePhoto
-            }}
-          >
-            {(updateProfileFn, { loading }) => (
-              <EditAccountPresenter
-                email={email}
-                firstName={firstName}
-                lastName={lastName}
-                profilePhoto={profilePhoto}
-                onInputChange={this.onInputChange}
-                loading={loading}
-                onSubmit={updateProfileFn}
-              />
-            )}
-          </UpdateProfileMutation>
-        )}
+      <ProfileQuery>
+        <UpdateProfileMutation
+          mutation={UPDATE_PROFILE}
+          refetchQueries={[{ query: USER_PROFILE }]}
+          onCompleted={data => {
+            const { UpdateMyProfile } = data;
+            if (UpdateMyProfile.ok) {
+              toast.success("Profile updated!");
+            } else if (UpdateMyProfile.error) {
+              toast.error(UpdateMyProfile.error);
+            }
+          }}
+          variables={{
+            email,
+            firstName,
+            lastName,
+            profilePhoto
+          }}
+        >
+          {(updateProfileFn, { loading }) => (
+            <EditAccountPresenter
+              email={email}
+              firstName={firstName}
+              lastName={lastName}
+              profilePhoto={profilePhoto}
+              onInputChange={this.onInputChange}
+              loading={loading}
+              onSubmit={updateProfileFn}
+            />
+          )}
+        </UpdateProfileMutation>
       </ProfileQuery>
     );
   }
@@ -90,8 +90,7 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     } as any);
   };
 
-  public updateFields = (data: userProfile) => {
-    console.log(data);
+  public updateFields = (data: userProfile | {}) => {
     if ("GetMyProfile" in data) {
       const {
         GetMyProfile: { user }
