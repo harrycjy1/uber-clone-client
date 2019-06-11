@@ -37,7 +37,11 @@ class EditAccountContainer extends React.Component<IProps, IState> {
   public render() {
     const { email, firstName, lastName, profilePhoto } = this.state;
     return (
-      <ProfileQuery query={USER_PROFILE} onCompleted={this.updateFields}>
+      <ProfileQuery
+        query={USER_PROFILE}
+        fetchPolicy={"cache-and-network"}
+        onCompleted={this.updateFields}
+      >
         {() => (
           <UpdateProfileMutation
             mutation={UPDATE_PROFILE}
