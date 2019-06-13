@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import axios from "axios";
 import { Mutation, Query } from "react-apollo";
 import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -106,13 +107,29 @@ class EditAccountContainer extends React.Component<IProps, IState> {
       // </ProfileQuery>
     );
   }
-  public onInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+  public onInputChange: React.ChangeEventHandler<
+    HTMLInputElement
+  > = async event => {
     const {
       target: { name, value, files }
     } = event;
     if (files) {
       this.setState({ uploading: true });
-      console.log(files);
+
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      formData.append("api_key", "879246383158587");
+      formData.append("upload_preset", "ml_default");
+      formData.append("timestamp", String(Date.now() / 1000));
+
+      const {
+        data: { secure_url }
+      } = await axios.post(
+        "https://api.cloudinary.com/v1_1/choddolcloud/image/upload",
+        formData
+      );
+      if (secure_url)
+        this.setState({ profilePhoto: secure_url, uploading: false });
     }
 
     this.setState({
