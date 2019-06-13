@@ -18,6 +18,7 @@ interface IState {
   email: string;
   profilePhoto: string;
   didFetch: boolean;
+  uploading: boolean;
 }
 
 interface IProps extends RouteComponentProps<any> {}
@@ -35,11 +36,19 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     firstName: "",
     lastName: "",
     profilePhoto: "",
-    didFetch: false
+    didFetch: false,
+    uploading: false
   };
 
   ProfileQuery = () => {
-    const { email, firstName, lastName, profilePhoto, didFetch } = this.state;
+    const {
+      email,
+      firstName,
+      lastName,
+      profilePhoto,
+      didFetch,
+      uploading
+    } = this.state;
     const { data, loading } = useQuery(USER_PROFILE, {
       fetchPolicy: "cache-and-network",
       skip: didFetch
@@ -48,7 +57,6 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     useEffect(() => {
       const onCompleted = data => this.updateFields(data);
       if (onCompleted) {
-        console.log(this.state);
         onCompleted(data);
       }
     }, [data, loading]);
@@ -81,6 +89,7 @@ class EditAccountContainer extends React.Component<IProps, IState> {
             onInputChange={this.onInputChange}
             loading={loading}
             onSubmit={updateProfileFn}
+            uploading={uploading}
           />
         )}
       </UpdateProfileMutation>
@@ -99,8 +108,12 @@ class EditAccountContainer extends React.Component<IProps, IState> {
   }
   public onInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     const {
-      target: { name, value }
+      target: { name, value, files }
     } = event;
+    if (files) {
+      this.setState({ uploading: true });
+      console.log(files);
+    }
 
     this.setState({
       [name]: value
