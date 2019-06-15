@@ -85,6 +85,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
         GetMyPlaces.places &&
         GetMyPlaces.places.map(place => (
           <Place
+            id={place!.id}
             key={place!.id}
             fav={place!.isFav}
             name={place!.name}
