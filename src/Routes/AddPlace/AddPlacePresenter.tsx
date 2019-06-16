@@ -29,6 +29,7 @@ interface IProps {
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: MutationFn<addPlace, addPlaceVariables>;
   loading: boolean;
+  pickedAddress: boolean;
 }
 
 const AddPlacePresenter: React.SFC<IProps> = ({
@@ -36,7 +37,8 @@ const AddPlacePresenter: React.SFC<IProps> = ({
   address,
   onInputChange,
   onSubmit,
-  loading
+  loading,
+  pickedAddress
 }) => (
   <React.Fragment>
     <Helmet>
@@ -61,7 +63,12 @@ const AddPlacePresenter: React.SFC<IProps> = ({
         />
         <ExtendedLink to={"/find-address"}>Pick place from map</ExtendedLink>
 
-        <Button onClick={null} value={loading ? "Adding Place" : "Add Place"} />
+        {pickedAddress && (
+          <Button
+            onClick={null}
+            value={loading ? "Adding Place" : "Add Place"}
+          />
+        )}
       </Form>
     </Container>
   </React.Fragment>

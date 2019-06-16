@@ -21,8 +21,8 @@ class AddPlaceContatiner extends React.Component<IProps, IState> {
   public state = {
     name: "",
     address: "",
-    lat: 12.345,
-    lng: 13.345
+    lat: 0,
+    lng: 0
   };
 
   public render() {
@@ -52,6 +52,7 @@ class AddPlaceContatiner extends React.Component<IProps, IState> {
             onInputChange={this.onInputChange}
             onSubmit={addPlaceFn as any}
             loading={loading}
+            pickedAddress={lat !== 0 && lng !== 0}
           />
         )}
       </AddPlaceMutation>
