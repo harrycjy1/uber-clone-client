@@ -1,6 +1,7 @@
 import React from "react";
 import Helmet from "react-helmet";
 import styled from "../../typed-components";
+import AddressBar from "../../Components/AddressBar";
 
 const Map = styled.div`
   position: absolute;
@@ -25,16 +26,25 @@ const Center = styled.div`
 
 interface IProps {
   mapRef: any;
+  address: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
 }
 
 class FindAddressPresenter extends React.Component<IProps> {
   public render() {
-    const { mapRef } = this.props;
+    const { mapRef, address, onChange, onBlur } = this.props;
     return (
       <div>
         <Helmet>
           <title>Find Address | Uber</title>
         </Helmet>
+        <AddressBar
+          name={"address"}
+          value={address}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
         <Center>📍</Center>
         <Map ref={mapRef} />
       </div>
