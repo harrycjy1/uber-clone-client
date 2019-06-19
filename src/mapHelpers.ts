@@ -26,7 +26,7 @@ export const geoCode = async (address: string) => {
 export const reverseGeoCode = async (lat: number, lng: number) => {
   const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${MAP_KEY}`;
 
-  const { status, data } = await axios(URL);
+  const { data } = await axios(URL);
   if (!data.error_message) {
     const { formatted_address } = data.results[0];
     return formatted_address;
