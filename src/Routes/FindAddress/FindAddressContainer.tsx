@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import FindAddressPresenter from "./FindAddressPresenter";
-import { reverseGeoCode } from "../../mapHelpers";
+import { reverseGeoCode, geoCode } from "../../mapHelpers";
 
 interface IState {
   lat: number;
@@ -46,15 +46,13 @@ class FindAddressContainer extends React.Component<any, IState> {
       coords: { latitude, longitude }
     } = position;
 
-    const reverseAddress = await reverseGeoCode(latitude, longitude);
-
     this.setState({
       lat: latitude,
-      lng: longitude,
-      address: reverseAddress
+      lng: longitude
     });
     //현재 위치 센터로 설정
     this.loadMap(latitude, longitude);
+    this.reverseGeocoding(latitude, longitude);
   };
 
   public handleGeoFail = () => {
@@ -82,14 +80,11 @@ class FindAddressContainer extends React.Component<any, IState> {
     const newCenter = this.map.getCenter();
     const lat = newCenter.lat();
     const lng = newCenter.lng();
-
-    const reverseAddress = await reverseGeoCode(lat, lng);
-
     this.setState({
       lat,
-      lng,
-      address: reverseAddress
+      lng
     });
+    this.reverseGeocoding(lat, lng);
   };
 
   public onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,8 +97,19 @@ class FindAddressContainer extends React.Component<any, IState> {
     } as any);
   };
 
-  public onInputBlur = () => {
-    console.log("address updated");
+  public onInputBlur = async () => {
+    const coords = await geoCode(this.state.address);
+    // this.loadMap(lat, lng);
+  };
+
+  public reverseGeocoding = async (lat: number, lng: number) => {
+    const reverseAddress = await reverseGeoCode(lat, lng);
+
+    if (reverseAddress) {
+      this.setState({
+        address: reverseAddress
+      });
+    }
   };
 }
 
