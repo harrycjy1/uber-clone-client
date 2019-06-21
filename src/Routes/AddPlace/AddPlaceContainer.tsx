@@ -18,12 +18,25 @@ interface IProps extends RouteComponentProps<any> {}
 class AddPlaceMutation extends Mutation<addPlace, addPlaceVariables> {}
 
 class AddPlaceContatiner extends React.Component<IProps, IState> {
-  public state = {
-    name: "",
-    address: "",
-    lat: 0,
-    lng: 0
-  };
+  constructor(props) {
+    super(props);
+
+    const { location: { state = {} } = {} } = this.props;
+
+    this.state = {
+      address: state.address || "",
+      lat: state.lat || 0,
+      lng: state.lng || 0,
+      name: ""
+    };
+  }
+
+  // public state = {
+  //   name: "",
+  //   address: "",
+  //   lat: 0,
+  //   lng: 0
+  // };
 
   public render() {
     const { name, address, lng, lat } = this.state;
