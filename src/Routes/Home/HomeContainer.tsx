@@ -5,7 +5,6 @@ import { RouteComponentProps } from "react-router";
 import { Query } from "react-apollo";
 import { userProfile } from "../../types/api";
 import { USER_PROFILE } from "../../sharedQueries";
-import { Geolocation } from "react-native";
 
 interface IState {
   isMenuOpen: boolean;
