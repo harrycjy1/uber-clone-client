@@ -28,7 +28,7 @@ interface IProps {
   required?: boolean;
   value: string;
   name?: string;
-  onChange: any;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
 }
 

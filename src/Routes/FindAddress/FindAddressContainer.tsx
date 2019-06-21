@@ -1,15 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import FindAddressPresenter from "./FindAddressPresenter";
+import { reverseGeoCode, geoCode } from "../../mapHelpers";
 
 interface IState {
   lat: number;
   lng: number;
+  address: string;
 }
 
 class FindAddressContainer extends React.Component<any, IState> {
   public mapRef: any;
   public map: google.maps.Map;
+  public state = {
+    lat: 0,
+    lng: 0,
+    address: ""
+  };
 
   constructor(props) {
     super(props);
@@ -24,10 +31,17 @@ class FindAddressContainer extends React.Component<any, IState> {
   }
 
   public render() {
-    return <FindAddressPresenter mapRef={this.mapRef} />;
+    return (
+      <FindAddressPresenter
+        mapRef={this.mapRef}
+        address={this.state.address}
+        onBlur={this.onInputBlur}
+        onChange={this.onInputChange}
+      />
+    );
   }
 
-  public handleGeoSuccess = (position: Position) => {
+  public handleGeoSuccess = async (position: Position) => {
     const {
       coords: { latitude, longitude }
     } = position;
@@ -38,6 +52,7 @@ class FindAddressContainer extends React.Component<any, IState> {
     });
     //현재 위치 센터로 설정
     this.loadMap(latitude, longitude);
+    this.reverseGeocoding(latitude, longitude);
   };
 
   public handleGeoFail = () => {
@@ -54,6 +69,7 @@ class FindAddressContainer extends React.Component<any, IState> {
         lng
       },
       disableDefaultUI: true,
+      minZoom: 8,
       zoom: 15
     };
     this.map = new maps.Map(mapNode, mapConfig);
@@ -61,15 +77,50 @@ class FindAddressContainer extends React.Component<any, IState> {
   };
 
   //드래그가끝나면 해당 화면 센터의 위치가 스테이트로 저장
-  public handleDragEnd = () => {
+  public handleDragEnd = async () => {
     const newCenter = this.map.getCenter();
     const lat = newCenter.lat();
     const lng = newCenter.lng();
-
     this.setState({
       lat,
       lng
     });
+    this.reverseGeocoding(lat, lng);
+  };
+
+  public onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { name, value }
+    } = event;
+
+    this.setState({
+      [name]: value
+    } as any);
+  };
+
+  public onInputBlur = async () => {
+    const result = await geoCode(this.state.address);
+    if (result) {
+      const { lat, lng, formatted_address } = result;
+      this.setState({
+        lat,
+        lng,
+        address: formatted_address
+      });
+      this.map.panTo({ lat, lng });
+    } else {
+      return;
+    }
+  };
+
+  public reverseGeocoding = async (lat: number, lng: number) => {
+    const reverseAddress = await reverseGeoCode(lat, lng);
+
+    if (reverseAddress) {
+      this.setState({
+        address: reverseAddress
+      });
+    }
   };
 }
 
