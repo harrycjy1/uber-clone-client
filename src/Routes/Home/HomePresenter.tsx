@@ -60,35 +60,45 @@ const HomePresenter: React.SFC<IProps> = ({
   onAddressSubmit,
   toAddress,
   onInputChange
-}) => (
-  <Container>
-    <Helmet>
-      <title>Hi</title>
-    </Helmet>
-    <Sidebar
-      sidebar={<Menu />}
-      open={isMenuOpen}
-      onSetOpen={toggleMenu}
-      styles={{
-        sidebar: {
-          backgroundColor: "white",
-          width: "80%",
-          zIndex: "10"
-        }
-      }}
-    >
-      {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
-      <AddressBar
-        name={"toAddress"}
-        onChange={onInputChange}
-        value={toAddress}
-        onBlur={() => {}}
-      />
+}) => {
+  const keyPress = e => {
+    if (e.key == "Enter") {
+      onAddressSubmit();
+    } else {
+      return;
+    }
+  };
+  return (
+    <Container>
+      <Helmet>
+        <title>Hi</title>
+      </Helmet>
+      <Sidebar
+        sidebar={<Menu />}
+        open={isMenuOpen}
+        onSetOpen={toggleMenu}
+        styles={{
+          sidebar: {
+            backgroundColor: "white",
+            width: "80%",
+            zIndex: "10"
+          }
+        }}
+      >
+        {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
+        <AddressBar
+          name={"toAddress"}
+          onChange={onInputChange}
+          value={toAddress}
+          onKeyPress={keyPress}
+          onBlur={() => {}}
+        />
 
-      <ExtendedButton value={"Pick this place"} onClick={onAddressSubmit} />
-      <Map ref={mapRef} />
-    </Sidebar>
-  </Container>
-);
+        <ExtendedButton value={"Pick this place"} onClick={onAddressSubmit} />
+        <Map ref={mapRef} />
+      </Sidebar>
+    </Container>
+  );
+};
 
 export default HomePresenter;

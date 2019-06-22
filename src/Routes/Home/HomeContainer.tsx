@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import HomePresenter from "./HomePresenter";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import { Query } from "react-apollo";
 import { userProfile } from "../../types/api";
 import { USER_PROFILE } from "../../sharedQueries";
 import { geoCode } from "../../mapHelpers";
-import { MapViewBase } from "react-native";
+import { toast } from "react-toastify";
 
 interface IState {
   isMenuOpen: boolean;
@@ -15,6 +15,9 @@ interface IState {
   toAddress: string;
   toLng: number;
   toLat: number;
+  distance?: string;
+  duration?: string;
+  price?: string;
 }
 interface IProps extends RouteComponentProps<any> {
   google: any;
@@ -27,6 +30,8 @@ class HomeContatiner extends React.Component<IProps, IState> {
   public map: google.maps.Map;
   public toMarker: google.maps.Marker;
   public userMarker: google.maps.Marker;
+  public directions: google.maps.DirectionsRenderer;
+
   public state = {
     isMenuOpen: false,
     lat: 0,
@@ -75,7 +80,6 @@ class HomeContatiner extends React.Component<IProps, IState> {
         lng
       },
       disableDefaultUI: true,
-      minZoom: 8,
       zoom: 15
     };
     this.map = new maps.Map(mapNode, mapConfig);
@@ -136,11 +140,6 @@ class HomeContatiner extends React.Component<IProps, IState> {
     const result = await geoCode(toAddress);
     if (result) {
       const { lat, lng, formatted_address } = result;
-      this.setState({
-        toLat: lat,
-        toLng: lng,
-        toAddress: formatted_address
-      });
       const toMarkerOptions: google.maps.MarkerOptions = {
         position: { lat, lng }
       };
@@ -150,8 +149,67 @@ class HomeContatiner extends React.Component<IProps, IState> {
       }
       this.toMarker = new maps.Marker(toMarkerOptions);
       this.toMarker.setMap(this.map);
+      const bounds = new maps.LatLngBounds();
+      bounds.extend({ lat, lng });
+      bounds.extend({ lat: this.state.lat, lng: this.state.lng });
+      this.map.fitBounds(bounds);
+      this.setState(
+        {
+          toLat: lat,
+          toLng: lng,
+          toAddress: formatted_address
+        },
+        this.createPath
+      );
     } else {
       return;
+    }
+  };
+
+  public createPath = () => {
+    const { toLat, toLng, lat, lng } = this.state;
+    const { google } = this.props;
+    if (this.directions) {
+      this.directions.setMap(null);
+    }
+
+    const rendererOptions: google.maps.DirectionsRendererOptions = {
+      suppressMarkers: true
+    };
+
+    this.directions = new google.maps.DirectionsRenderer(rendererOptions);
+    const directionsService: google.maps.DirectionsService = new google.maps.DirectionsService();
+    const to = new google.maps.LatLng(toLat, toLng);
+    const from = new google.maps.LatLng(lat, lng);
+    const directionsOptions: google.maps.DirectionsRequest = {
+      destination: to,
+      origin: from,
+      travelMode: google.maps.TravelMode.TRANSIT
+    };
+    directionsService.route(directionsOptions, this.handleDirectionsRequests);
+  };
+
+  public handleDirectionsRequests = (
+    result: google.maps.DirectionsResult,
+    status: google.maps.DirectionsStatus
+  ) => {
+    const { google } = this.props;
+    if (status === google.maps.DirectionsStatus.OK) {
+      const { routes } = result;
+      const {
+        distance: { text: distance },
+        duration: { text: duration }
+      } = routes[0].legs[0];
+
+      this.setState({
+        distance,
+        duration
+      });
+
+      this.directions.setDirections(result);
+      this.directions.setMap(this.map);
+    } else {
+      toast.error(status);
     }
   };
 
