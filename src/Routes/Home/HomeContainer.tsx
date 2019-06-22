@@ -127,6 +127,7 @@ class HomeContatiner extends React.Component<IProps, IState> {
             onAddressSubmit={this.onAddressSubmit}
             toAddress={this.state.toAddress}
             onInputChange={this.onInputChange}
+            onKeyPress={this.keyPress}
           />
         )}
       </ProfileQuery>
@@ -221,6 +222,14 @@ class HomeContatiner extends React.Component<IProps, IState> {
     this.setState({
       [name]: value
     } as any);
+  };
+
+  public keyPress = e => {
+    if (e.key == "Enter") {
+      this.onAddressSubmit();
+    } else {
+      return;
+    }
   };
 
   //메뉴 토글식으로 열고 닫기

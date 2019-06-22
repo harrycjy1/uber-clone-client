@@ -50,6 +50,7 @@ interface IProps {
   onAddressSubmit: () => void;
   toAddress: string;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress: (event: React.KeyboardEvent) => void;
 }
 
 const HomePresenter: React.SFC<IProps> = ({
@@ -59,15 +60,9 @@ const HomePresenter: React.SFC<IProps> = ({
   mapRef,
   onAddressSubmit,
   toAddress,
-  onInputChange
+  onInputChange,
+  onKeyPress
 }) => {
-  const keyPress = e => {
-    if (e.key == "Enter") {
-      onAddressSubmit();
-    } else {
-      return;
-    }
-  };
   return (
     <Container>
       <Helmet>
@@ -90,7 +85,7 @@ const HomePresenter: React.SFC<IProps> = ({
           name={"toAddress"}
           onChange={onInputChange}
           value={toAddress}
-          onKeyPress={keyPress}
+          onKeyPress={onKeyPress}
           onBlur={() => {}}
         />
 
