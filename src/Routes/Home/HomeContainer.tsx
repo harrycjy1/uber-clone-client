@@ -56,7 +56,7 @@ class HomeContatiner extends React.Component<IProps, IState> {
     return;
   };
 
-  public loadMap = (lat, lng) => {
+  public loadMap = (lat: number, lng: number) => {
     const { google } = this.props;
     const maps = google.maps;
     const mapNode = ReactDOM.findDOMNode(this.mapRef.current);
@@ -90,7 +90,12 @@ class HomeContatiner extends React.Component<IProps, IState> {
   };
 
   public handleGeoWatchSuccess = (position: Position) => {
-    return;
+    const {
+      coords: { latitude, longitude }
+    } = position;
+
+    this.userMarker.setPosition({ lat: latitude, lng: longitude });
+    this.map.panTo({ lat: latitude, lng: longitude });
   };
   public handleGeoWatchError = () => {
     console.log("Error watching you");
