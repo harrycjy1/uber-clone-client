@@ -3,10 +3,13 @@ import Helmet from "react-helmet";
 import styled from "../../typed-components";
 import Menu from "../../Components/Menu";
 import Sidebar from "react-sidebar";
+import Button from "../../Components/Button";
+
+import AddressBar from "../../Components/AddressBar";
 
 const Container = styled.div``;
 
-const Button = styled.button`
+const MenuButton = styled.button`
   appearance: none;
   padding: 10px;
   position: absolute;
@@ -28,18 +31,35 @@ const Map = styled.div`
   width: 100%;
 `;
 
+const ExtendedButton = styled(Button)`
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 10;
+  height: auto;
+  width: 80%;
+`;
+
 interface IProps {
   isMenuOpen: boolean;
   toggleMenu: () => void;
   loading: boolean;
   mapRef: any;
+  onAddressSubmit: () => void;
+  toAddress: string;
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const HomePresenter: React.SFC<IProps> = ({
   isMenuOpen,
   toggleMenu,
   loading,
-  mapRef
+  mapRef,
+  onAddressSubmit,
+  toAddress,
+  onInputChange
 }) => (
   <Container>
     <Helmet>
@@ -57,7 +77,15 @@ const HomePresenter: React.SFC<IProps> = ({
         }
       }}
     >
-      {!loading && <Button onClick={toggleMenu}>|||</Button>}
+      {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
+      <AddressBar
+        name={"toAddress"}
+        onChange={onInputChange}
+        value={toAddress}
+        onBlur={() => {}}
+      />
+
+      <ExtendedButton value={"Pick this place"} onClick={onAddressSubmit} />
       <Map ref={mapRef} />
     </Sidebar>
   </Container>
