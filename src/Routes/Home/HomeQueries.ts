@@ -7,3 +7,17 @@ export const REPORT_LOCATION = gql`
     }
   }
 `;
+
+export const GET_NEARBY_DRIVERS = gql`
+  query getDrivers {
+    GetNearbyDrivers {
+      ok
+      error
+      drivers {
+        id
+        lastLng
+        lastLat
+      }
+    }
+  }
+`;
