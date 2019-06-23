@@ -90,7 +90,7 @@ const HomePresenter: React.SFC<IProps> = ({
         }}
       >
         {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
-        {GetMyProfile.user && !GetMyProfile.user.isDriving && (
+        {!loading && GetMyProfile.user && GetMyProfile.user.isDriving && (
           <React.Fragment>
             <AddressBar
               name={"toAddress"}
