@@ -2,11 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import HomePresenter from "./HomePresenter";
 import { RouteComponentProps } from "react-router-dom";
-import { Query } from "react-apollo";
-import { userProfile } from "../../types/api";
+import { Query, graphql, MutationFn } from "react-apollo";
+import {
+  userProfile,
+  reportMovement,
+  reportMovementVariables
+} from "../../types/api";
 import { USER_PROFILE } from "../../sharedQueries";
 import { geoCode } from "../../mapHelpers";
 import { toast } from "react-toastify";
+import { REPORT_LOCATION } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -21,11 +26,12 @@ interface IState {
 }
 interface IProps extends RouteComponentProps<any> {
   google: any;
+  reportLocation: MutationFn;
 }
 
 class ProfileQuery extends Query<userProfile> {}
 
-class HomeContatiner extends React.Component<IProps, IState> {
+class HomeContainer extends React.Component<IProps, IState> {
   public mapRef: any;
   public map: google.maps.Map;
   public toMarker: google.maps.Marker;
@@ -109,9 +115,14 @@ class HomeContatiner extends React.Component<IProps, IState> {
     const {
       coords: { latitude, longitude }
     } = position;
-
+    const { reportLocation } = this.props;
+    console.log(this.props);
     this.userMarker.setPosition({ lat: latitude, lng: longitude });
     this.map.panTo({ lat: latitude, lng: longitude });
+
+    reportLocation({
+      variables: { lat: latitude, lng: longitude }
+    });
   };
   public handleGeoWatchError = () => {
     console.log("Error watching you");
@@ -241,7 +252,7 @@ class HomeContatiner extends React.Component<IProps, IState> {
   };
 
   public keyPress = e => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       this.onAddressSubmit();
     } else {
       return;
@@ -258,4 +269,9 @@ class HomeContatiner extends React.Component<IProps, IState> {
   };
 }
 
-export default HomeContatiner;
+export default graphql<any, reportMovement, reportMovementVariables>(
+  REPORT_LOCATION,
+  {
+    name: "reportLocation"
+  }
+)(HomeContainer);
