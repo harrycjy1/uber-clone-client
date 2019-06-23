@@ -38,7 +38,10 @@ class HomeContatiner extends React.Component<IProps, IState> {
     lng: 0,
     toAddress: "",
     toLng: 0,
-    toLat: 0
+    toLat: 0,
+    distance: "",
+    duration: "",
+    price: ""
   };
 
   constructor(props) {
@@ -128,6 +131,7 @@ class HomeContatiner extends React.Component<IProps, IState> {
             toAddress={this.state.toAddress}
             onInputChange={this.onInputChange}
             onKeyPress={this.keyPress}
+            price={this.state.price}
           />
         )}
       </ProfileQuery>
@@ -202,15 +206,27 @@ class HomeContatiner extends React.Component<IProps, IState> {
         duration: { text: duration }
       } = routes[0].legs[0];
 
-      this.setState({
-        distance,
-        duration
-      });
-
       this.directions.setDirections(result);
       this.directions.setMap(this.map);
+
+      this.setState(
+        {
+          distance,
+          duration
+        },
+        this.setPrice
+      );
     } else {
       toast.error(status);
+    }
+  };
+
+  public setPrice = () => {
+    const { distance } = this.state;
+    if (distance) {
+      this.setState({
+        price: Number(parseFloat(distance.replace(",", "")) * 1.1).toFixed(2)
+      });
     }
   };
 
