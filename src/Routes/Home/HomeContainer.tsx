@@ -118,7 +118,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       coords: { latitude, longitude }
     } = position;
     const { reportLocation } = this.props;
-    console.log(this.props);
+
     this.userMarker.setPosition({ lat: latitude, lng: longitude });
     this.map.panTo({ lat: latitude, lng: longitude });
 
