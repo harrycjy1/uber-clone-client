@@ -136,7 +136,17 @@ class HomeContainer extends React.Component<IProps, IState> {
       <ProfileQuery query={USER_PROFILE}>
         {({ data, loading }) => {
           return (
-            <NearbyQueries query={GET_NEARBY_DRIVERS}>
+            <NearbyQueries
+              query={GET_NEARBY_DRIVERS}
+              skip={
+                (data &&
+                  data.GetMyProfile &&
+                  data.GetMyProfile.user &&
+                  data.GetMyProfile.user.isDriving) ||
+                false
+              }
+              onCompleted={this.handleNearbyDrivers}
+            >
               {() => (
                 <HomePresenter
                   loading={loading}
@@ -275,6 +285,14 @@ class HomeContainer extends React.Component<IProps, IState> {
         isMenuOpen: !state.isMenuOpen
       };
     });
+  };
+
+  public handleNearbyDrivers = (data: getDrivers) => {
+    const {
+      GetNearbyDrivers: { ok, drivers }
+    } = data;
+
+    console.log(drivers);
   };
 }
 

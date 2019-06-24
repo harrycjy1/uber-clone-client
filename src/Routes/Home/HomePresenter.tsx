@@ -72,6 +72,7 @@ const HomePresenter: React.SFC<IProps> = ({
   data
 }) => {
   const GetMyProfile = data!.GetMyProfile;
+
   return (
     <Container>
       <Helmet>
@@ -90,7 +91,7 @@ const HomePresenter: React.SFC<IProps> = ({
         }}
       >
         {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
-        {!loading && GetMyProfile.user && GetMyProfile.user.isDriving && (
+        {GetMyProfile && GetMyProfile.user && !GetMyProfile.user.isDriving && (
           <React.Fragment>
             <AddressBar
               name={"toAddress"}
