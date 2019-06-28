@@ -56,7 +56,7 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     });
 
     useEffect(() => {
-      const onCompleted = data => this.updateFields(data);
+      const onCompleted = (data: userProfile) => this.updateFields(data);
       if (onCompleted) {
         onCompleted(data);
       }
