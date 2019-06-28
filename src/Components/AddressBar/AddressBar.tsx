@@ -24,11 +24,19 @@ interface IProps {
   value: string;
   name: string;
   onBlur: () => void;
+  onKeyPress?: (event: React.KeyboardEvent) => void;
 }
 
-const AddressBar: React.SFC<IProps> = ({ onChange, onBlur, name, value }) => (
+const AddressBar: React.SFC<IProps> = ({
+  onChange,
+  onBlur,
+  name,
+  value,
+  onKeyPress
+}) => (
   <Container
     onChange={onChange}
+    onKeyPress={onKeyPress}
     onBlur={onBlur}
     name={name}
     value={value}
