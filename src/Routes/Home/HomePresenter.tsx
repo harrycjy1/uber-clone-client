@@ -5,7 +5,12 @@ import Menu from "../../Components/Menu";
 import Sidebar from "react-sidebar";
 import Button from "../../Components/Button";
 import AddressBar from "../../Components/AddressBar";
-import { userProfile } from "../../types/api";
+import {
+  userProfile,
+  requestRide,
+  requestRideVariables
+} from "../../types/api";
+import { MutationFn } from "react-apollo";
 
 const Container = styled.div``;
 
@@ -57,6 +62,7 @@ interface IProps {
   onKeyPress: (event: React.KeyboardEvent) => void;
   price?: string;
   data?: userProfile;
+  requestRideFn: MutationFn<requestRide, requestRideVariables>;
 }
 
 const HomePresenter: React.SFC<IProps> = ({
@@ -69,7 +75,8 @@ const HomePresenter: React.SFC<IProps> = ({
   onInputChange,
   onKeyPress,
   price,
-  data
+  data,
+  requestRideFn
 }) => {
   const GetMyProfile = data!.GetMyProfile;
 
@@ -110,7 +117,7 @@ const HomePresenter: React.SFC<IProps> = ({
         {price && (
           <RequestButton
             value={`Request Ride ($${price})`}
-            onClick={onAddressSubmit}
+            onClick={requestRideFn}
           />
         )}
 
