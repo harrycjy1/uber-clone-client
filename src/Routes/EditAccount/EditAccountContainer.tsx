@@ -51,7 +51,6 @@ class EditAccountContainer extends React.Component<IProps, IState> {
       uploading
     } = this.state;
     const { data, loading } = useQuery(USER_PROFILE, {
-      fetchPolicy: "cache-and-network",
       skip: didFetch
     });
 
