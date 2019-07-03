@@ -152,12 +152,13 @@ class HomeContainer extends React.Component<IProps, IState> {
       lat: latitude,
       lng: longitude
     });
-    //사용자가 최초의 위치 겟
+    //사용자의 최초의 위치 겟
     this.getFromAddress(latitude, longitude);
     //현재 위치 센터로 설정
     this.loadMap(latitude, longitude);
   };
 
+  //lat, lng로 부터 주소 겟
   public getFromAddress = async (lat: number, lng: number) => {
     const address = await reverseGeoCode(lat, lng);
     if (address) {
@@ -220,6 +221,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     console.log("Error watching you");
   };
 
+  //주소 입력 시 마커표시와 맵 zoom 재조정(bounds)
   public onAddressSubmit = async () => {
     const { toAddress } = this.state;
     const { google } = this.props;
@@ -253,6 +255,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     }
   };
 
+  //목표까지의 경로 표시
   public createPath = () => {
     const { toLat, toLng, lat, lng } = this.state;
     const { google } = this.props;
@@ -276,6 +279,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     directionsService.route(directionsOptions, this.handleDirectionsRequests);
   };
 
+  //거리, 시간 등 디렉션 리퀘스트 핸들러
   public handleDirectionsRequests = (
     result: google.maps.DirectionsResult,
     status: google.maps.DirectionsStatus
@@ -338,7 +342,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       };
     });
   };
-
+  //near driver mutation handler , mark the near by driver
   public handleNearbyDrivers = (data: getDrivers) => {
     const {
       GetNearbyDrivers: { ok, drivers }
