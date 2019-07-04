@@ -179,6 +179,63 @@ export interface requestRideVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getRides
+// ====================================================
+
+export interface getRides_GetNearByRide_ride_passenger {
+  __typename: "User";
+  fullName: string | null;
+  profilePhoto: string | null;
+}
+
+export interface getRides_GetNearByRide_ride {
+  __typename: "Ride";
+  id: number;
+  pickUpAddress: string;
+  dropOffAddress: string;
+  price: number;
+  distance: string;
+  passenger: getRides_GetNearByRide_ride_passenger;
+}
+
+export interface getRides_GetNearByRide {
+  __typename: "GetNearByRideResponse";
+  ok: boolean;
+  error: string | null;
+  ride: getRides_GetNearByRide_ride | null;
+}
+
+export interface getRides {
+  GetNearByRide: getRides_GetNearByRide;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: acceptRide
+// ====================================================
+
+export interface acceptRide_UpdateRideStatus {
+  __typename: "UpdateRideStatusResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface acceptRide {
+  UpdateRideStatus: acceptRide_UpdateRideStatus | null;
+}
+
+export interface acceptRideVariables {
+  rideId: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: startPhoneVerification
 // ====================================================
 

@@ -57,9 +57,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message }) => {
       toast.error(`Unexpected error : ${message}`);
+      return;
     });
   } else if (networkError) {
     toast.error(`Network error : ${networkError}`);
+    return;
   }
 });
 

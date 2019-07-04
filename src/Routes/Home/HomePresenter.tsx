@@ -8,9 +8,13 @@ import AddressBar from "../../Components/AddressBar";
 import {
   userProfile,
   requestRide,
-  requestRideVariables
+  requestRideVariables,
+  getRides,
+  acceptRide,
+  acceptRideVariables
 } from "../../types/api";
 import { MutationFn } from "react-apollo";
+import RidePopUp from "../../Components/RidePopUp";
 
 const Container = styled.div``;
 
@@ -62,7 +66,9 @@ interface IProps {
   onKeyPress: (event: React.KeyboardEvent) => void;
   price?: string;
   data?: userProfile;
-  requestRideFn: MutationFn<requestRide, requestRideVariables>;
+  requestRideFn?: MutationFn<requestRide, requestRideVariables>;
+  nearbyRide?: getRides;
+  acceptRideFn?: MutationFn<acceptRide, acceptRideVariables>;
 }
 
 const HomePresenter: React.SFC<IProps> = ({
@@ -76,7 +82,9 @@ const HomePresenter: React.SFC<IProps> = ({
   onKeyPress,
   price,
   data,
-  requestRideFn
+  requestRideFn,
+  nearbyRide,
+  acceptRideFn
 }) => {
   const GetMyProfile = data!.GetMyProfile;
 
@@ -120,7 +128,22 @@ const HomePresenter: React.SFC<IProps> = ({
             onClick={requestRideFn}
           />
         )}
-
+        {nearbyRide &&
+          nearbyRide.GetNearByRide &&
+          nearbyRide.GetNearByRide.ride && (
+            <RidePopUp
+              id={nearbyRide.GetNearByRide.ride.id}
+              pickUpAddress={nearbyRide.GetNearByRide.ride.pickUpAddress}
+              dropOffAddress={nearbyRide.GetNearByRide.ride.dropOffAddress}
+              price={nearbyRide.GetNearByRide.ride.price}
+              distance={nearbyRide.GetNearByRide.ride.distance}
+              passengerName={nearbyRide.GetNearByRide.ride.passenger.fullName!}
+              passengerPhoto={
+                nearbyRide.GetNearByRide.ride.passenger.profilePhoto!
+              }
+              acceptRideFn={acceptRideFn}
+            />
+          )}
         <Map ref={mapRef} />
       </Sidebar>
     </Container>
