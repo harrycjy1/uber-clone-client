@@ -152,7 +152,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       lat: latitude,
       lng: longitude
     });
-    //사용자의 최초의 위치 겟
+    //사용자의 최초의 위치
     this.getFromAddress(latitude, longitude);
     //현재 위치 센터로 설정
     this.loadMap(latitude, longitude);
