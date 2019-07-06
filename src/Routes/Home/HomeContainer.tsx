@@ -22,8 +22,10 @@ import {
   GET_NEARBY_DRIVERS,
   REQUEST_RIDE,
   GET_NEARBY_RIDE,
-  ACCEPT_RIDE
+  ACCEPT_RIDE,
+  SUBSCRIBE_NEARBY_RIDES
 } from "./HomeQueries";
+import { SubscribeToMoreOptions } from "apollo-client";
 
 interface IState {
   isMenuOpen: boolean;
@@ -99,13 +101,13 @@ class HomeContainer extends React.Component<IProps, IState> {
       isDriving
     } = this.state;
     return (
-      <ProfileQuery query={USER_PROFILE}>
+      <ProfileQuery query={USER_PROFILE} onCompleted={this.handleProfileQuery}>
         {({ data, loading }) => {
           return (
             <NearbyQueries
               query={GET_NEARBY_DRIVERS}
               pollInterval={5000}
-              skip={!isDriving}
+              skip={isDriving}
               onCompleted={this.handleNearbyDrivers}
             >
               {() => (
@@ -125,28 +127,40 @@ class HomeContainer extends React.Component<IProps, IState> {
                   onCompleted={this.handleRideRequest}
                 >
                   {requestRideFn => (
-                    <GetNearByRides query={GET_NEARBY_RIDE} skip={isDriving}>
-                      {({ data: nearbyRide }) => (
-                        <AcceptRide mutation={ACCEPT_RIDE}>
-                          {acceptRideFn => (
-                            <HomePresenter
-                              loading={loading}
-                              isMenuOpen={isMenuOpen}
-                              toggleMenu={this.toggleMenu}
-                              mapRef={this.mapRef}
-                              toAddress={toAddress}
-                              onInputChange={this.onInputChange}
-                              price={price}
-                              data={data}
-                              onAddressSubmit={this.onAddressSubmit}
-                              onKeyPress={this.keyPress}
-                              requestRideFn={requestRideFn}
-                              nearbyRide={nearbyRide}
-                              acceptRideFn={acceptRideFn}
-                            />
-                          )}
-                        </AcceptRide>
-                      )}
+                    <GetNearByRides query={GET_NEARBY_RIDE} skip={!isDriving}>
+                      {({ subscribeToMore, data: nearbyRide }) => {
+                        const rideSubscriptionOptions: SubscribeToMoreOptions = {
+                          document: SUBSCRIBE_NEARBY_RIDES,
+                          updateQuery: (prev, { subscriptionData }) => {
+                            console.log(prev, subscriptionData);
+                          }
+                        };
+                        if (isDriving) {
+                          subscribeToMore(rideSubscriptionOptions);
+                        }
+
+                        return (
+                          <AcceptRide mutation={ACCEPT_RIDE}>
+                            {acceptRideFn => (
+                              <HomePresenter
+                                loading={loading}
+                                isMenuOpen={isMenuOpen}
+                                toggleMenu={this.toggleMenu}
+                                mapRef={this.mapRef}
+                                toAddress={toAddress}
+                                onInputChange={this.onInputChange}
+                                price={price}
+                                data={data}
+                                onAddressSubmit={this.onAddressSubmit}
+                                onKeyPress={this.keyPress}
+                                requestRideFn={requestRideFn}
+                                nearbyRide={nearbyRide}
+                                acceptRideFn={acceptRideFn}
+                              />
+                            )}
+                          </AcceptRide>
+                        );
+                      }}
                     </GetNearByRides>
                   )}
                 </RequestRideMutation>
@@ -408,6 +422,18 @@ class HomeContainer extends React.Component<IProps, IState> {
       toast.success("Drive requested, finding a driver");
     } else {
       toast.error(RequestRide!.error);
+    }
+  };
+
+  public handleProfileQuery = (data: userProfile) => {
+    const { GetMyProfile } = data;
+    if (GetMyProfile.user) {
+      const {
+        user: { isDriving }
+      } = GetMyProfile;
+      this.setState({
+        isDriving
+      });
     }
   };
 }
