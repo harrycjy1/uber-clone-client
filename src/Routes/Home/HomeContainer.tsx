@@ -133,6 +133,17 @@ class HomeContainer extends React.Component<IProps, IState> {
                           document: SUBSCRIBE_NEARBY_RIDES,
                           updateQuery: (prev, { subscriptionData }) => {
                             console.log(prev, subscriptionData);
+                            if (!subscriptionData.data) {
+                              return prev;
+                            }
+                            const result = Object.assign({}, prev, {
+                              GetNearByRide: {
+                                ...prev.GetNearByRide,
+                                ride:
+                                  subscriptionData.data.NearbyRideSubscription
+                              }
+                            });
+                            return result;
                           }
                         };
                         if (isDriving) {
