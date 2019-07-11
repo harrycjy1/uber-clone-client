@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "../../typed-components";
 import Button from "../../Components/Button";
-import {
-  userProfile,
-  updateRide,
-  updateRideVariables,
-  getRide
-} from "../../types/api";
+import { Link } from "react-router-dom";
+
+// import {
+//   userProfile,
+//   updateRide,
+//   updateRideVariables,
+//   getRide
+// } from "../../types/api";
 import { MutationFn } from "react-apollo";
 
 const Container = styled.div`
@@ -48,10 +50,10 @@ const ExtendedButton = styled(Button)`
 `;
 
 interface IProps {
-  data?: getRide;
-  userData?: userProfile;
+  data?: any;
+  userData?: any;
   loading: boolean;
-  updateRideFn: MutationFn<updateRide, updateRideVariables>;
+  updateRideFn: MutationFn;
 }
 
 const RidePresenter: React.SFC<IProps> = ({
