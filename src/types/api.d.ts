@@ -287,6 +287,121 @@ export interface startPhoneVerificationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getRide
+// ====================================================
+
+export interface getRide_GetRide_ride_driver {
+  __typename: "User";
+  id: number;
+  fullName: string | null;
+  profilePhoto: string | null;
+}
+
+export interface getRide_GetRide_ride_passenger {
+  __typename: "User";
+  id: number;
+  fullName: string | null;
+  profilePhoto: string | null;
+}
+
+export interface getRide_GetRide_ride {
+  __typename: "Ride";
+  id: number;
+  status: string;
+  pickUpAddress: string;
+  dropOffAddress: string;
+  price: number;
+  distance: string;
+  duration: string;
+  driver: getRide_GetRide_ride_driver | null;
+  passenger: getRide_GetRide_ride_passenger;
+  chatId: number | null;
+}
+
+export interface getRide_GetRide {
+  __typename: "GetRideResponse";
+  ok: boolean;
+  error: string | null;
+  ride: getRide_GetRide_ride | null;
+}
+
+export interface getRide {
+  GetRide: getRide_GetRide;
+}
+
+export interface getRideVariables {
+  rideId: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL subscription operation: rideUpdates
+// ====================================================
+
+export interface rideUpdates_RideStatusSubscription_driver {
+  __typename: "User";
+  id: number;
+  fullName: string | null;
+  profilePhoto: string | null;
+}
+
+export interface rideUpdates_RideStatusSubscription_passenger {
+  __typename: "User";
+  id: number;
+  fullName: string | null;
+  profilePhoto: string | null;
+}
+
+export interface rideUpdates_RideStatusSubscription {
+  __typename: "Ride";
+  id: number;
+  status: string;
+  pickUpAddress: string;
+  dropOffAddress: string;
+  price: number;
+  distance: string;
+  duration: string;
+  driver: rideUpdates_RideStatusSubscription_driver | null;
+  passenger: rideUpdates_RideStatusSubscription_passenger;
+  chatId: number | null;
+}
+
+export interface rideUpdates {
+  RideStatusSubscription: rideUpdates_RideStatusSubscription | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateRide
+// ====================================================
+
+export interface updateRide_UpdateRideStatus {
+  __typename: "UpdateRideStatusResponse";
+  ok: boolean;
+  error: string | null;
+  rideId: number | null;
+}
+
+export interface updateRide {
+  UpdateRideStatus: updateRide_UpdateRideStatus | null;
+}
+
+export interface updateRideVariables {
+  rideId: number;
+  status: StatusOptions;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: facebookConnect
 // ====================================================
 
@@ -395,6 +510,14 @@ export interface getPlaces {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+export enum StatusOptions {
+  ACCEPTED = "ACCEPTED",
+  CANCELED = "CANCELED",
+  FINISHED = "FINISHED",
+  ONROUTE = "ONROUTE",
+  REQUESTING = "REQUESTING",
+}
 
 //==============================================================
 // END Enums and Input Objects
