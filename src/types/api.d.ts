@@ -516,7 +516,7 @@ export enum StatusOptions {
   CANCELED = "CANCELED",
   FINISHED = "FINISHED",
   ONROUTE = "ONROUTE",
-  REQUESTING = "REQUESTING",
+  REQUESTING = "REQUESTING"
 }
 
 //==============================================================

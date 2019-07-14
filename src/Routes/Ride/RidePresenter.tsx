@@ -2,14 +2,12 @@ import React from "react";
 import styled from "../../typed-components";
 import Button from "../../Components/Button";
 import { Link } from "react-router-dom";
-
-// import {
-//   userProfile,
-//   updateRide,
-//   updateRideVariables,
-//   getRide
-// } from "../../types/api";
 import { MutationFn } from "react-apollo";
+import {
+  updateRide,
+  updateRideVariables,
+  StatusOptions
+} from "../../types/api";
 
 const Container = styled.div`
   padding: 40px;
@@ -53,7 +51,7 @@ interface IProps {
   data?: any;
   userData?: any;
   loading: boolean;
-  updateRideFn: MutationFn;
+  updateRideFn: MutationFn<updateRide, updateRideVariables>;
 }
 
 const RidePresenter: React.SFC<IProps> = ({
@@ -101,7 +99,7 @@ const RidePresenter: React.SFC<IProps> = ({
                     updateRideFn({
                       variables: {
                         rideId: ride.id,
-                        status: "ONROUTE"
+                        status: StatusOptions.ONROUTE
                       }
                     })
                   }
@@ -116,7 +114,7 @@ const RidePresenter: React.SFC<IProps> = ({
                     updateRideFn({
                       variables: {
                         rideId: ride.id,
-                        status: "FINISHED"
+                        status: StatusOptions.FINISHED
                       }
                     })
                   }
