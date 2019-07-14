@@ -3,11 +3,8 @@ import styled from "../../typed-components";
 import Button from "../../Components/Button";
 import { Link } from "react-router-dom";
 import { MutationFn } from "react-apollo";
-import {
-  updateRide,
-  updateRideVariables,
-  StatusOptions
-} from "../../types/api";
+import { updateRide, updateRideVariables } from "../../types/api";
+import { StatusOptions } from "../../sharedQueries.local";
 
 const Container = styled.div`
   padding: 40px;
@@ -59,6 +56,8 @@ const RidePresenter: React.SFC<IProps> = ({
   userData: { GetMyProfile: { user = null } = {} } = {},
   updateRideFn
 }) => {
+  const ONROUTE = StatusOptions.ONROUTE;
+  const FINISHED = StatusOptions.FINISHED;
   return (
     <Container>
       {ride && user && (
@@ -98,8 +97,8 @@ const RidePresenter: React.SFC<IProps> = ({
                   onClick={() =>
                     updateRideFn({
                       variables: {
-                        rideId: ride.id,
-                        status: StatusOptions.ONROUTE
+                        rideId: Number(ride.id),
+                        status: ONROUTE
                       }
                     })
                   }
@@ -113,8 +112,8 @@ const RidePresenter: React.SFC<IProps> = ({
                   onClick={() =>
                     updateRideFn({
                       variables: {
-                        rideId: ride.id,
-                        status: StatusOptions.FINISHED
+                        rideId: Number(ride.id),
+                        status: FINISHED
                       }
                     })
                   }

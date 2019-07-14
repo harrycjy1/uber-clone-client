@@ -34,10 +34,12 @@ class RideContainer extends React.Component<IProps> {
       }
     } = this.props;
 
+    const _rideId = Number(rideId);
+
     return (
       <PropfileQuery query={USER_PROFILE}>
         {({ data: userData }) => (
-          <RideQuery query={GET_RIDE} variables={{ rideId }}>
+          <RideQuery query={GET_RIDE} variables={{ rideId: _rideId }}>
             {({ data, loading, subscribeToMore }) => {
               const subscriptionOptions: SubscribeToMoreOptions = {
                 document: RIDE_SUBSCRIPTION,
@@ -51,7 +53,12 @@ class RideContainer extends React.Component<IProps> {
               subscribeToMore(subscriptionOptions);
 
               return (
-                <RideUpdateMutation mutation={UPDATE_RIDE_STATUS}>
+                <RideUpdateMutation
+                  mutation={UPDATE_RIDE_STATUS}
+                  refetchQueries={[
+                    { query: GET_RIDE, variables: { rideId: _rideId } }
+                  ]}
+                >
                   {updateRideFn => (
                     <RidePresenter
                       userData={userData}
