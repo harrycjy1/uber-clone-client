@@ -57,69 +57,70 @@ interface IProps {
 }
 
 const RidePresenter: React.SFC<IProps> = ({
-  data: { GetRide },
-  userData: { GetMyProfile },
-  updateRideFn
+  data,
+  userData,
+  updateRideFn,
+  loading
 }) => {
   const ONROUTE = StatusOptions.ONROUTE;
   const FINISHED = StatusOptions.FINISHED;
-  const { ride } = GetRide;
-  const { user } = GetMyProfile;
+  const { GetRide } = data;
+  const { GetMyProfile } = userData;
   return (
     <Container>
-      {ride && user && (
+      {!loading && GetRide.ride && GetMyProfile.user && (
         <React.Fragment>
           <Title>Passenger</Title>
           <Passenger>
-            <Img src={ride.passenger.profilePhoto!} />
-            <Data>{ride.passenger.fullName!}</Data>
+            <Img src={GetRide.ride.passenger.profilePhoto!} />
+            <Data>{GetRide.ride.passenger.fullName!}</Data>
           </Passenger>
-          {ride.driver && (
+          {GetRide.ride.driver && (
             <React.Fragment>
               <Title>Driver</Title>
               <Passenger>
-                <Img src={ride.driver.profilePhoto!} />
-                <Data>{ride.driver.fullName!}</Data>
+                <Img src={GetRide.ride.driver.profilePhoto!} />
+                <Data>{GetRide.ride.driver.fullName!}</Data>
               </Passenger>
             </React.Fragment>
           )}
           <Title>From</Title>
-          <Data>{ride.pickUpAddress}</Data>
+          <Data>{GetRide.ride.pickUpAddress}</Data>
           <Title>To</Title>
-          <Data>{ride.dropOffAddress}</Data>
+          <Data>{GetRide.ride.dropOffAddress}</Data>
           <Title>Price</Title>
-          <Data>{ride.price}</Data>
+          <Data>{GetRide.ride.price}</Data>
           <Title>Distance</Title>
-          <Data>{ride.distance}</Data>
+          <Data>{GetRide.ride.distance}</Data>
           <Title>Duration</Title>
-          <Data>{ride.duration}</Data>
+          <Data>{GetRide.ride.duration}</Data>
           <Title>Status</Title>
-          <Data>{ride.status}</Data>
+          <Data>{GetRide.ride.status}</Data>
           <Buttons>
-            {ride.driver &&
-              ride.driver.id === user.id &&
-              ride.status === "ACCEPTED" && (
+            {GetRide.ride.driver &&
+              GetRide.ride.driver.id === GetMyProfile.user.id &&
+              GetRide.ride.status === "ACCEPTED" && (
                 <ExtendedButton
                   value={"Picked Up"}
                   onClick={() =>
                     updateRideFn({
                       variables: {
-                        rideId: Number(ride.id),
+                        rideId: Number(GetRide.ride!.id),
                         status: ONROUTE
                       }
                     })
                   }
                 />
               )}
-            {ride.driver &&
-              ride.driver.id === user.id &&
-              ride.status === "ONROUTE" && (
+            {GetRide.ride.driver &&
+              GetRide.ride.driver.id === GetMyProfile.user.id &&
+              GetRide.ride.status === "ONROUTE" && (
                 <ExtendedButton
                   value={"Finished"}
                   onClick={() =>
                     updateRideFn({
                       variables: {
-                        rideId: Number(ride.id),
+                        rideId: Number(GetRide.ride!.id),
                         status: FINISHED
                       }
                     })
@@ -127,8 +128,8 @@ const RidePresenter: React.SFC<IProps> = ({
                 />
               )}
 
-            {ride.status !== "REQUESTING" && (
-              <Link to={`/chat/${ride.chatId}`}>
+            {GetRide.ride.status !== "REQUESTING" && (
+              <Link to={`/chat/${GetRide.ride.chatId}`}>
                 <ExtendedButton value={"Chat"} onClick={null} />
               </Link>
             )}

@@ -29,6 +29,7 @@ class RideContainer extends React.Component<IProps> {
   }
 
   public render() {
+    console.log(this.props);
     const {
       match: {
         params: { rideId }
@@ -54,7 +55,6 @@ class RideContainer extends React.Component<IProps> {
                     }
                   };
                   subscribeToMore(subscriptionOptions);
-
                   if (data) {
                     return (
                       <RideUpdateMutation
