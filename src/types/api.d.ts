@@ -457,6 +457,7 @@ export interface verifyPhoneVariables {
 
 export interface userProfile_GetMyProfile_user {
   __typename: "User";
+  id: number;
   profilePhoto: string | null;
   firstName: string;
   lastName: string;

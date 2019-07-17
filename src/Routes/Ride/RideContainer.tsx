@@ -12,6 +12,7 @@ import { Query, Mutation } from "react-apollo";
 import { USER_PROFILE } from "../../sharedQueries";
 import { UPDATE_RIDE_STATUS, GET_RIDE, RIDE_SUBSCRIPTION } from "./RideQueries";
 import { SubscribeToMoreOptions } from "apollo-client";
+import { toast } from "react-toastify";
 
 class RideQuery extends Query<getRide, getRideVariables> {}
 class PropfileQuery extends Query<userProfile> {}
@@ -38,40 +39,50 @@ class RideContainer extends React.Component<IProps> {
 
     return (
       <PropfileQuery query={USER_PROFILE}>
-        {({ data: userData }) => (
-          <RideQuery query={GET_RIDE} variables={{ rideId: _rideId }}>
-            {({ data, loading, subscribeToMore }) => {
-              const subscriptionOptions: SubscribeToMoreOptions = {
-                document: RIDE_SUBSCRIPTION,
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) {
-                    return prev;
-                  }
-                  console.log(prev, subscriptionData);
-                }
-              };
-              subscribeToMore(subscriptionOptions);
+        {({ data: userData }) => {
+          if (userData) {
+            return (
+              <RideQuery query={GET_RIDE} variables={{ rideId: _rideId }}>
+                {({ data, loading, subscribeToMore }) => {
+                  const subscriptionOptions: SubscribeToMoreOptions = {
+                    document: RIDE_SUBSCRIPTION,
+                    updateQuery: (prev, { subscriptionData }) => {
+                      if (!subscriptionData.data) {
+                        return prev;
+                      }
+                      console.log(prev, subscriptionData);
+                    }
+                  };
+                  subscribeToMore(subscriptionOptions);
 
-              return (
-                <RideUpdateMutation
-                  mutation={UPDATE_RIDE_STATUS}
-                  refetchQueries={[
-                    { query: GET_RIDE, variables: { rideId: _rideId } }
-                  ]}
-                >
-                  {updateRideFn => (
-                    <RidePresenter
-                      userData={userData}
-                      data={data}
-                      loading={loading}
-                      updateRideFn={updateRideFn}
-                    />
-                  )}
-                </RideUpdateMutation>
-              );
-            }}
-          </RideQuery>
-        )}
+                  if (data) {
+                    return (
+                      <RideUpdateMutation
+                        mutation={UPDATE_RIDE_STATUS}
+                        refetchQueries={[
+                          { query: GET_RIDE, variables: { rideId: _rideId } }
+                        ]}
+                      >
+                        {updateRideFn => (
+                          <RidePresenter
+                            userData={userData}
+                            data={data}
+                            loading={loading}
+                            updateRideFn={updateRideFn}
+                          />
+                        )}
+                      </RideUpdateMutation>
+                    );
+                  } else {
+                    return toast.error("fuck it");
+                  }
+                }}
+              </RideQuery>
+            );
+          } else {
+            return toast.error("fuck you");
+          }
+        }}
       </PropfileQuery>
     );
   }

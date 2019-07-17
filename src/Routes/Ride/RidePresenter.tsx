@@ -3,7 +3,12 @@ import styled from "../../typed-components";
 import Button from "../../Components/Button";
 import { Link } from "react-router-dom";
 import { MutationFn } from "react-apollo";
-import { updateRide, updateRideVariables } from "../../types/api";
+import {
+  updateRide,
+  updateRideVariables,
+  getRide,
+  userProfile
+} from "../../types/api";
 import { StatusOptions } from "../../sharedQueries.local";
 
 const Container = styled.div`
@@ -45,19 +50,21 @@ const ExtendedButton = styled(Button)`
 `;
 
 interface IProps {
-  data?: any;
-  userData?: any;
+  data: getRide;
+  userData: userProfile;
   loading: boolean;
   updateRideFn: MutationFn<updateRide, updateRideVariables>;
 }
 
 const RidePresenter: React.SFC<IProps> = ({
-  data: { GetRide: { ride = null } = {} } = {},
-  userData: { GetMyProfile: { user = null } = {} } = {},
+  data: { GetRide },
+  userData: { GetMyProfile },
   updateRideFn
 }) => {
   const ONROUTE = StatusOptions.ONROUTE;
   const FINISHED = StatusOptions.FINISHED;
+  const { ride } = GetRide;
+  const { user } = GetMyProfile;
   return (
     <Container>
       {ride && user && (
