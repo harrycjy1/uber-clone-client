@@ -511,6 +511,14 @@ export interface getPlaces {
 // START Enums and Input Objects
 //==============================================================
 
+export enum StatusOptions {
+  ACCEPTED = "ACCEPTED",
+  CANCELED = "CANCELED",
+  FINISHED = "FINISHED",
+  ONROUTE = "ONROUTE",
+  REQUESTING = "REQUESTING",
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
