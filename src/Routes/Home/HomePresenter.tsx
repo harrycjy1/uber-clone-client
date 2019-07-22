@@ -137,9 +137,11 @@ const HomePresenter: React.SFC<IProps> = ({
               dropOffAddress={nearbyRide.GetNearByRide.ride.dropOffAddress}
               price={nearbyRide.GetNearByRide.ride.price}
               distance={nearbyRide.GetNearByRide.ride.distance}
-              passengerName={nearbyRide.GetNearByRide.ride.passenger.fullName!}
+              passengerName={
+                nearbyRide.GetNearByRide.ride!.passenger!.fullName!
+              }
               passengerPhoto={
-                nearbyRide.GetNearByRide.ride.passenger.profilePhoto!
+                nearbyRide.GetNearByRide.ride!.passenger!.profilePhoto!
               }
               acceptRideFn={acceptRideFn}
             />

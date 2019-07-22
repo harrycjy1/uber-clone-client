@@ -70,6 +70,43 @@ export interface addPlaceVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getChat
+// ====================================================
+
+export interface getChat_GetChat_chat_messages {
+  __typename: "Message";
+  id: number;
+  text: string;
+  userId: number | null;
+}
+
+export interface getChat_GetChat_chat {
+  __typename: "Chat";
+  passengerId: number;
+  driverId: number | null;
+  messages: (getChat_GetChat_chat_messages | null)[] | null;
+}
+
+export interface getChat_GetChat {
+  __typename: "GetChatResponse";
+  ok: boolean;
+  error: string | null;
+  chat: getChat_GetChat_chat | null;
+}
+
+export interface getChat {
+  GetChat: getChat_GetChat;
+}
+
+export interface getChatVariables {
+  chatId: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: updateProfile
 // ====================================================
 
@@ -195,7 +232,7 @@ export interface getRides_GetNearByRide_ride {
   dropOffAddress: string;
   price: number;
   distance: string;
-  passenger: getRides_GetNearByRide_ride_passenger;
+  passenger: getRides_GetNearByRide_ride_passenger | null;
 }
 
 export interface getRides_GetNearByRide {
@@ -253,7 +290,7 @@ export interface nearbyRides_NearbyRideSubscription {
   dropOffAddress: string;
   price: number;
   distance: string;
-  passenger: nearbyRides_NearbyRideSubscription_passenger;
+  passenger: nearbyRides_NearbyRideSubscription_passenger | null;
 }
 
 export interface nearbyRides {
@@ -314,7 +351,7 @@ export interface getRide_GetRide_ride {
   distance: string;
   duration: string;
   driver: getRide_GetRide_ride_driver | null;
-  passenger: getRide_GetRide_ride_passenger;
+  passenger: getRide_GetRide_ride_passenger | null;
   chatId: number | null;
 }
 
@@ -365,7 +402,7 @@ export interface rideUpdates_RideStatusSubscription {
   distance: string;
   duration: string;
   driver: rideUpdates_RideStatusSubscription_driver | null;
-  passenger: rideUpdates_RideStatusSubscription_passenger;
+  passenger: rideUpdates_RideStatusSubscription_passenger | null;
   chatId: number | null;
 }
 
@@ -517,7 +554,7 @@ export enum StatusOptions {
   CANCELED = "CANCELED",
   FINISHED = "FINISHED",
   ONROUTE = "ONROUTE",
-  REQUESTING = "REQUESTING",
+  REQUESTING = "REQUESTING"
 }
 
 //==============================================================
