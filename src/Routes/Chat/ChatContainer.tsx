@@ -1,24 +1,39 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import ChatPresenter from "./ChatPresenter";
-import { Query } from "react-apollo";
-import { getChat, getChatVariables, userProfile } from "../../types/api";
+import { Query, Mutation, MutationFn } from "react-apollo";
+import {
+  getChat,
+  getChatVariables,
+  userProfile,
+  sendMessageVariables,
+  sendMessage
+} from "../../types/api";
 import { toast } from "react-toastify";
 import { USER_PROFILE } from "../../sharedQueries";
-import { GET_CHAT } from "./ChatQueries";
+import { GET_CHAT, SEND_MESSAGE } from "./ChatQueries";
 
 interface IProps extends RouteComponentProps<any> {}
+interface IState {
+  message: string;
+}
 
 class ChatQuery extends Query<getChat, getChatVariables> {}
 class ProfileQuery extends Query<userProfile> {}
+class SendMessageMutation extends Mutation<sendMessage, sendMessageVariables> {}
 
-class ChatContainer extends React.Component<IProps> {
+class ChatContainer extends React.Component<IProps, IState> {
+  public sendMessageFn: MutationFn<sendMessage, sendMessageVariables>;
+
   constructor(props: IProps) {
     super(props);
 
     if (!props.match.params.chatId) {
       props.history.push("/");
     }
+    this.state = {
+      message: ""
+    };
   }
 
   public render() {
@@ -28,6 +43,7 @@ class ChatContainer extends React.Component<IProps> {
       }
     } = this.props;
 
+    const { message } = this.state;
     const _chatId = Number(chatId);
     return (
       <ProfileQuery query={USER_PROFILE}>
@@ -38,11 +54,21 @@ class ChatContainer extends React.Component<IProps> {
                 {({ data: chatData, loading }) => {
                   if (chatData) {
                     return (
-                      <ChatPresenter
-                        chatData={chatData}
-                        userData={userData}
-                        loading={loading}
-                      />
+                      <SendMessageMutation mutation={SEND_MESSAGE}>
+                        {sendMessageFn => {
+                          this.sendMessageFn = sendMessageFn;
+                          return (
+                            <ChatPresenter
+                              chatData={chatData}
+                              userData={userData}
+                              loading={loading}
+                              onInputChange={this.onInputChange}
+                              onSubmit={this.onSubmit}
+                              messageText={message}
+                            />
+                          );
+                        }}
+                      </SendMessageMutation>
                     );
                   } else {
                     return toast.error("no chat data");
@@ -57,6 +83,36 @@ class ChatContainer extends React.Component<IProps> {
       </ProfileQuery>
     );
   }
+
+  public onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { name, value }
+    } = e;
+
+    this.setState({
+      [name]: value
+    } as any);
+  };
+
+  public onSubmit = () => {
+    const {
+      match: {
+        params: { chatId }
+      }
+    } = this.props;
+    const { message } = this.state;
+    const _chatId = Number(chatId);
+    if (message !== "") {
+      this.setState({
+        message: ""
+      });
+
+      this.sendMessageFn({
+        variables: { chatId: _chatId, text: message }
+      });
+      return;
+    }
+  };
 }
 
 export default ChatContainer;

@@ -17,3 +17,17 @@ export const GET_CHAT = gql`
     }
   }
 `;
+
+export const SEND_MESSAGE = gql`
+  mutation sendMessage($chatId: Int!, $text: String!) {
+    SendChatMessages(chatId: $chatId, text: $text) {
+      ok
+      error
+      message {
+        id
+        text
+        userId
+      }
+    }
+  }
+`;
