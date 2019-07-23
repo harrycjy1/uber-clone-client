@@ -6,6 +6,7 @@ const Container = styled.div<{ mine: boolean }>`
     props.mine ? props.theme.blueColor : props.theme.greyColor};
   color: white;
   padding: 10px 20px;
+  margin: 10px;
   border-radius: 20px;
   align-self: ${props => (props.mine ? "flex-end" : "flex-start")};
   border-bottom-right-radius: ${props => (props.mine ? "0px" : "20px")};
