@@ -1,5 +1,4 @@
 import React from "react";
-
 import Header from "../../Components/Header";
 import styled from "../../typed-components";
 import { getChat, userProfile } from "../../types/api";
@@ -19,7 +18,7 @@ const Chat = styled.div`
 `;
 
 const InputCont = styled.div`
-  padding: 0 20 px;
+  padding: 0 20px;
 `;
 
 interface IProps {
