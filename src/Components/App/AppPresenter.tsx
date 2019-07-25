@@ -27,11 +27,7 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => (
 //SFC = stateless functional component
 const LoggedOutRoutes: React.SFC = () => (
   <Switch>
-    <Route
-      path={isDev ? "/" : "/uber-clone-client"}
-      exact={true}
-      component={Login}
-    />
+    <Route path={"/"} exact={true} component={Login} />
     <Route path={"/phone-login"} component={PhoneLogin} />
     <Route path={"/verify-phone"} component={VerifyPhone} />
     <Route path={"/social-login"} component={SocialLogin} />
