@@ -70,7 +70,7 @@ class ChatContainer extends React.Component<IProps, IState> {
                           }
                         } = prev;
 
-                        const newMessageId = MessageSubscription.id;
+                        const newMessageId = MessageSubscription!.id;
                         const latestMessageId =
                           messages[messages.length - 1].id;
                         //메시지 중복 피하기
