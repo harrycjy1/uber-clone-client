@@ -69,14 +69,15 @@ class ChatContainer extends React.Component<IProps, IState> {
                             chat: { messages }
                           }
                         } = prev;
-                        console.log(MessageSubscription);
-                        console.log(messages);
-                        const newMessageId = MessageSubscription!.id;
-                        const latestMessageId = messages![messages.length - 1]!
-                          .id;
-                        //메시지 중복 피하기
-                        if (newMessageId === latestMessageId) {
-                          return;
+                        if (messages) {
+                          const newMessageId = MessageSubscription!.id;
+                          const latestMessageId = messages![
+                            messages.length - 1
+                          ]!.id;
+                          //메시지 중복 피하기
+                          if (newMessageId === latestMessageId) {
+                            return;
+                          }
                         }
 
                         const newObject = Object.assign({}, prev, {
