@@ -47,6 +47,7 @@
     "eject": "react-scripts eject",
     "precodegen": "apollo schema:download --endpoint=http://localhost:4000/graphql",
     "codegen": "apollo codegen:generate src/types/api.d.ts --queries='src/**/!(*.local).ts' --addTypename --localSchemaFile=schema.json --target typescript --outputFlat",
+    "predeploy": "yarn run build",
     "deploy": "gh-pages -d dist"
   },
   "eslintConfig": {
@@ -69,5 +70,5 @@
     "@types/react-sidebar": "^3.0.0",
     "gh-pages": "^2.0.1"
   },
-  "homepage": "https://github.com/harrycjy1/uber-clone-client"
+  "homepage": "https://harrycjy1.github.io/uber-clone-client/"
 }
