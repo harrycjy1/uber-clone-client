@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.js": "/uber-clone-client/static/js/main.4b396b97.chunk.js",
-    "main.js.map": "/uber-clone-client/static/js/main.4b396b97.chunk.js.map",
+    "main.js": "/uber-clone-client/static/js/main.c56a1d81.chunk.js",
+    "main.js.map": "/uber-clone-client/static/js/main.c56a1d81.chunk.js.map",
     "runtime~main.js": "/uber-clone-client/static/js/runtime~main.37462add.js",
     "runtime~main.js.map": "/uber-clone-client/static/js/runtime~main.37462add.js.map",
     "static/css/2.b1119605.chunk.css": "/uber-clone-client/static/css/2.b1119605.chunk.css",
     "static/js/2.d1f4dfe8.chunk.js": "/uber-clone-client/static/js/2.d1f4dfe8.chunk.js",
     "static/js/2.d1f4dfe8.chunk.js.map": "/uber-clone-client/static/js/2.d1f4dfe8.chunk.js.map",
     "index.html": "/uber-clone-client/index.html",
-    "precache-manifest.9513b947f1c48610df5f9ba5cfb1547b.js": "/uber-clone-client/precache-manifest.9513b947f1c48610df5f9ba5cfb1547b.js",
+    "precache-manifest.c8cfee32afd31e1ca4477f82a39821f8.js": "/uber-clone-client/precache-manifest.c8cfee32afd31e1ca4477f82a39821f8.js",
     "service-worker.js": "/uber-clone-client/service-worker.js",
     "static/css/2.b1119605.chunk.css.map": "/uber-clone-client/static/css/2.b1119605.chunk.css.map",
     "static/media/bg.png": "/uber-clone-client/static/media/bg.f1662d11.png"
