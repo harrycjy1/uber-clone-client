@@ -34,10 +34,14 @@ const LoggedOutRoutes: React.SFC = () => (
     {/* redirect는 마지막에 작성해야함 (존재하는 경로를 검사후 리다이렉트 실행) */}
   </Switch>
 );
-
+const isDev = process.env.NODE_ENV === "development";
 const LoggedInRoutes: React.SFC = () => (
   <Switch>
-    <Route path={"/"} exact={true} component={Home} />
+    <Route
+      path={isDev ? "/" : "/uber-clone-client"}
+      exact={true}
+      component={Home}
+    />
     <Route path={"/ride/:rideId"} exact={true} component={Ride} />
     <Route path={"/add-place"} exact={true} component={AddPlace} />
     <Route path={"/chat/:chatId"} exact={true} component={Chat} />
