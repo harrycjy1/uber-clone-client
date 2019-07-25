@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "07dd3e89923f684e29d088ec34d62346",
+    "revision": "117305d863b71eb54b427a72649c8772",
     "url": "/uber-clone-client/index.html"
   },
   {
