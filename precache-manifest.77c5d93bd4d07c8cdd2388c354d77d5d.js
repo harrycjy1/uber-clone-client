@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2c1597b6d4a088de0a178d60585087a8",
+    "revision": "5bbc05b3204d52efc8b28d92991942ea",
     "url": "/uber-clone-client/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/uber-clone-client/static/js/2.d1f4dfe8.chunk.js"
   },
   {
-    "revision": "ddfc6e756acc45a78d0b",
-    "url": "/uber-clone-client/static/js/main.b5f5231c.chunk.js"
+    "revision": "08bb75a7b8e0ef9ef17c",
+    "url": "/uber-clone-client/static/js/main.88799f89.chunk.js"
   },
   {
     "revision": "9b1668a328c3dfbeed78",
