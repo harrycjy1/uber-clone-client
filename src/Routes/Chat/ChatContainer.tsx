@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { USER_PROFILE } from "../../sharedQueries";
 import { GET_CHAT, SEND_MESSAGE, SUBSCRIBE_TO_MESSAGES } from "./ChatQueries";
 import { SubscribeToMoreOptions } from "apollo-boost";
+import console = require("console");
 
 interface IProps extends RouteComponentProps<any> {}
 interface IState {
@@ -69,7 +70,8 @@ class ChatContainer extends React.Component<IProps, IState> {
                             chat: { messages }
                           }
                         } = prev;
-                        if (messages) {
+                        console.log(prev);
+                        if (messages.length > 1) {
                           const newMessageId = MessageSubscription!.id;
                           const latestMessageId = messages![
                             messages.length - 1
