@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/uber-clone-client/precache-manifest.a82fe96b4d2f9ec36e444db6c129e8f9.js"
+  "/uber-clone-client/precache-manifest.6536b172d79cc68f283b3acea3f247d8.js"
 );
 
 self.addEventListener('message', (event) => {
