@@ -17,6 +17,7 @@ import Chat from "../../Routes/Chat";
 interface IProps {
   isLoggedIn: boolean;
 }
+const isDev = process.env.NODE_ENV === "development";
 
 const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => (
   <BrowserRouter>
@@ -26,7 +27,11 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => (
 //SFC = stateless functional component
 const LoggedOutRoutes: React.SFC = () => (
   <Switch>
-    <Route path={"/"} exact={true} component={Login} />
+    <Route
+      path={isDev ? "/" : "/uber-clone-client"}
+      exact={true}
+      component={Login}
+    />
     <Route path={"/phone-login"} component={PhoneLogin} />
     <Route path={"/verify-phone"} component={VerifyPhone} />
     <Route path={"/social-login"} component={SocialLogin} />
@@ -37,7 +42,11 @@ const LoggedOutRoutes: React.SFC = () => (
 
 const LoggedInRoutes: React.SFC = () => (
   <Switch>
-    <Route path={"/"} exact={true} component={Home} />
+    <Route
+      path={isDev ? "/" : "/uber-clone-client"}
+      exact={true}
+      component={Home}
+    />
     <Route path={"/ride/:rideId"} exact={true} component={Ride} />
     <Route path={"/add-place"} exact={true} component={AddPlace} />
     <Route path={"/chat/:chatId"} exact={true} component={Chat} />
