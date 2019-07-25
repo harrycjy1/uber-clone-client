@@ -132,7 +132,6 @@ class HomeContainer extends React.Component<IProps, IState> {
                         const rideSubscriptionOptions: SubscribeToMoreOptions = {
                           document: SUBSCRIBE_NEARBY_RIDES,
                           updateQuery: (prev, { subscriptionData }) => {
-                            console.log(prev, subscriptionData);
                             if (!subscriptionData.data) {
                               return prev;
                             }
