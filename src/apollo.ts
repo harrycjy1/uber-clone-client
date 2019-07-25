@@ -46,7 +46,7 @@ const wsLink = new WebSocketLink({
   },
   uri: isDev
     ? "ws://localhost:4000/subscriptions"
-    : "WSS://choddol-uber-clone.herokuapp.com/subscriptions"
+    : "ws://choddol-uber-clone.herokuapp.com/subscriptions"
 });
 
 //삼항연산자와 비슷
