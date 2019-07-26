@@ -19,3 +19,5 @@ export enum StatusOptions {
   ONROUTE = "ONROUTE",
   REQUESTING = "REQUESTING"
 }
+
+export const MAP_KEY = "AIzaSyCqFtlBsOI_BMJSIfuV43AW7HG5GLEKEC0";
