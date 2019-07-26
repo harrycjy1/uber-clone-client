@@ -4,7 +4,8 @@
   "private": true,
   "engines": {
     "node": "10.15.0",
-    "npm": "6.4.1"
+    "npm": "6.4.1",
+    "yarn": "1.15.2"
   },
   "dependencies": {
     "@types/googlemaps": "^3.36.5",
