@@ -8,7 +8,7 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import { toast } from "react-toastify";
 
-const isDev = process.env.NODE_ENV === "development";
+// const isDev = process.env.NODE_ENV === "development";
 
 const getToken = () => {
   const token = localStorage.getItem("jwt");
@@ -32,9 +32,7 @@ const authMiddleWare = new ApolloLink((operation: Operation, forward: any) => {
 });
 
 const httpLink = new HttpLink({
-  uri: isDev
-    ? "http://localhost:4000/graphql"
-    : "https://choddol-uber-clone.herokuapp.com/graphql"
+  uri: "https://choddol-uber-clone.herokuapp.com/graphql"
 });
 
 const wsLink = new WebSocketLink({
@@ -44,9 +42,7 @@ const wsLink = new WebSocketLink({
     },
     reconnect: true
   },
-  uri: isDev
-    ? "ws://localhost:4000/subscriptions"
-    : "WSS://choddol-uber-clone.herokuapp.com/subscriptions"
+  uri: "WSS://choddol-uber-clone.herokuapp.com/subscriptions"
 });
 
 //삼항연산자와 비슷
