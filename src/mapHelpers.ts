@@ -1,10 +1,12 @@
 import axios from "axios";
-import { MAP_KEY } from "./key";
+
 import { toast } from "react-toastify";
 
 export const geoCode = async (address: string) => {
   try {
-    const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${MAP_KEY}`;
+    const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${
+      process.env.MAP_KEY
+    }`;
 
     const { data } = await axios(URL);
     if (!data.error_message) {
@@ -28,7 +30,9 @@ export const geoCode = async (address: string) => {
 };
 
 export const reverseGeoCode = async (lat: number, lng: number) => {
-  const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${MAP_KEY}`;
+  const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${
+    process.env.MAP_KEY
+  }`;
 
   const { data } = await axios(URL);
   if (!data.error_message) {
