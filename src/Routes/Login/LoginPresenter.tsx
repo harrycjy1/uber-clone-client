@@ -81,7 +81,7 @@ const LoginPresenter: React.SFC<IProps> = () => (
     <Footer>
       <Link to={"/phone-login"}>
         <PhoneLogin>
-          <Subtitle>Get Moving with Nuber</Subtitle>
+          <Subtitle>Get Moving with Nuber (Not available now, sorry)</Subtitle>
           <FakeInput>
             {/* eslint-disable-next-line */}
             🇰🇷 +82 <Grey>Enter your mobile number</Grey>
@@ -90,7 +90,7 @@ const LoginPresenter: React.SFC<IProps> = () => (
       </Link>
       <Link to={"/social-login"}>
         <SocialLogin>
-          <SocialLink>Or connect with social</SocialLink>
+          <SocialLink>Or connect with social (only available)</SocialLink>
         </SocialLogin>
       </Link>
     </Footer>
